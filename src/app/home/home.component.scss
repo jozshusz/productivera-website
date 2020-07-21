@@ -1,0 +1,99 @@
+*{
+    font-family: 'Lalezar', cursive;
+}
+
+.call_to_action_button{
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, 0.3);
+    padding: 15px;
+    padding-right: 25px;
+    padding-left: 25px;
+    font-size: 1.2em;
+}
+
+.call_to_action_button:hover{
+    background-color: #BA1D4C;
+}
+
+.list_of_words_flow{
+    color: rgb(122, 122, 122);
+}
+
+.landing_content{
+    margin-right: 0 !important;
+    margin-left: 0;
+    width: 100% !important;
+}
+
+.row{
+    width: 100% !important;
+}
+
+.power_text{
+    font-family: 'Bangers', cursive;
+}
+
+h1{
+    font-size: 5.5em;
+}
+
+h2{
+    font-size: 3em;
+}
+
+.purple_text{
+    color: #BA1D4C;
+}
+
+.left_side{
+    margin-top: 8%;
+    padding-left: 15%;
+}
+
+.right_side{
+    margin-top: 5%;
+    padding-right: 15%;
+}
+
+.center_side{
+    margin-top: 8%;
+}
+
+.white_word{
+    color: white;
+}
+
+.information{
+    width: 70% !important;
+    margin-top: 5%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.under_border{
+    border-bottom: 5px solid #f8799f;
+}
+
+.what_is_it{
+    padding: 6%;
+    background-color: rgba(255, 255, 255, 0.541);
+}
+
+.information_text{
+    font-size: 1.1em;
+    font-family: "Montserrat", Sans-serif;
+    color: black;
+}
+
+.how_it_works{
+    margin-top: 5%;
+}
+
+.align_right_text{
+    text-align: right;
+}
+
+.center_button{
+    margin-top: 5%;
+    margin-bottom: 5%;
+}

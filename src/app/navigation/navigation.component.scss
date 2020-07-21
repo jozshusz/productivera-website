@@ -1,0 +1,34 @@
+.navbar{
+    background-color: rgba(255, 255, 255, 0.479) !important;
+    font-size: 1.2em;
+    font-family: 'Lalezar', cursive;
+    padding: 2%;
+    padding-left: 3%;
+    padding-right: 3%;
+}
+
+.nav-item{
+    background-color: rgba(66, 0, 36, 0.205);
+    margin-right: 50px;
+    width: 150px;
+    text-align: center;
+}
+
+.nav-item:hover{
+    background-color: #BA1D4C;
+}
+
+.navbar-brand{
+    margin-left: 10px;
+    font-size: 1.4em;
+}
+
+.productivera_logo{
+    width: 40px;
+    margin-left: 50px;
+}
+
+.is-active{
+    background-color: #b4375d;
+    color: black;
+}

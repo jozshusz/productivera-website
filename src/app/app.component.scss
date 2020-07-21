@@ -1,0 +1,23 @@
+.main_content{
+    width: 100%;
+}
+
+#side_nav{
+    padding-left: 3%;
+    padding-top: 3%;
+    height: 100%;
+    width: 15%;
+    position: fixed;
+    z-index: 1;
+    top: 50px;
+    left: 0;
+    border-right: 1px solid rgb(199, 199, 199);
+    background-color: rgb(214, 214, 214);
+}
+
+.side_nav_container{
+    height: 60%;
+    text-align: center;
+    padding: 10%;
+    padding-top: 40%;
+}
