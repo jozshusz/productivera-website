@@ -9,7 +9,12 @@ import { FooterComponent } from './footer/footer.component';
 import { SideNavProjectsComponent } from './side-nav-projects/side-nav-projects.component';
 import { IdeasComponent } from './ideas/ideas.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatButtonModule } from '@angular/material/button'
+import { MatButtonModule } from '@angular/material/button';
+import { LoginComponent } from './login/login.component';
+import { ProfileComponent } from './profile/profile.component';
+import { MDBBootstrapModule } from 'angular-bootstrap-md';
+import { FormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
    declarations: [
@@ -18,13 +23,18 @@ import { MatButtonModule } from '@angular/material/button'
       NavigationComponent,
       FooterComponent,
       SideNavProjectsComponent,
-      IdeasComponent
+      IdeasComponent,
+      LoginComponent,
+      ProfileComponent
    ],
    imports: [
       BrowserModule,
       AppRoutingModule,
       MatCardModule,
-      MatButtonModule
+      MatButtonModule,
+      MDBBootstrapModule.forRoot(),
+      FormsModule,
+      ReactiveFormsModule
    ],
    providers: [],
    bootstrap: [

@@ -1,0 +1,56 @@
+<div class="row d-flex justify-content-center">
+  <form class="text-center border border-light p-5 rounded w-25" #form="ngForm" (submit)="onSubmit(form)" [class.loading]="loading">
+      <p class="h4 mb-4">Welcome!</p>
+      <div class="form-row mb-4" *ngIf="isSignUp">
+          <div class="col">
+              <input type="text" name="firstName" id="defaultRegisterFormFirstName" class="form-control" placeholder="First Name" ngModel>
+          </div>
+          <div class="col">
+              <input type="text" name="lastName" id="defaultRegisterFormLastName" class="form-control" placeholder="Last Name" ngModel>
+          </div>
+      </div>
+      <input type="email" name="email" id="defaultRegisterFormEmail" class="form-control mb-4" placeholder="E-mail" ngModel>
+      <input type="password" name="password" id="defaultRegisterFormPassword" class="form-control" placeholder="Password"
+          aria-describedby="defaultRegisterFormPasswordHelpBlock" ngModel>
+      <small id="defaultRegisterFormPasswordHelpBlock" class="form-text text-muted mb-4" *ngIf="isSignUp">
+          At least 8 characters and 1 digit
+      </small>
+      <div *ngIf="isSignUp">
+          <input type="text" id="defaultRegisterPhonePassword" class="form-control" placeholder="Phone number"
+              aria-describedby="defaultRegisterFormPhoneHelpBlock" ngModel name="phoneNumber">
+          <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-muted mb-4">
+              Optional - for two step authentication
+          </small>
+          <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="defaultRegisterFormNewsletter" name="newsletter">
+              <label class="custom-control-label" for="defaultRegisterFormNewsletter">Subscribe to our newsletter</label>
+          </div>
+      </div>
+      <small id="defaultRegisterFormPhoneHelpBlock" class="form-text text-danger mb-4" *ngIf="error">
+        {{ error }}
+      </small>
+      <button class="btn btn-info my-4 btn-block" type="submit">
+          Login
+      </button>
+      <span *ngIf="isLogin">
+          or
+          <a class="font-weight-bold" routerLink="/login">
+              Sign Up
+              <i class="fas fa-sign-in-alt"></i>
+          </a>
+      </span>
+      <span *ngIf="isSignUp">
+        or
+        <a class="font-weight-bold" routerLink="/login">
+          Login
+          <i class="fas fa-sign-in-alt"></i>
+        </a>
+      </span>
+      <div *ngIf="isSignUp">
+          <hr>
+          <p>By clicking
+              <em>Sign up</em> you agree to our
+              <a>terms of service</a>
+      </div>
+  </form>
+</div>

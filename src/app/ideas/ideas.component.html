@@ -4,9 +4,15 @@
         <div mat-card-avatar class="idea-header-image"></div>
         <mat-card-title>Shiba Inu</mat-card-title>
         <mat-card-subtitle>Dog Breed</mat-card-subtitle>
+        <div class="rating">
+          4.7 (36)
+        </div>
     </mat-card-header>
     <img mat-card-image src="../../assets/img/website_pic.jpg" alt="Photo of an idea">
     <mat-card-content>
+      <h5>
+        <b>Idea title</b>
+      </h5>
       <p>
         I have an idea where people could... Read more
       </p>
@@ -16,72 +22,19 @@
       <button mat-button>RATE</button>
     </mat-card-actions>
   </mat-card>
-  <mat-card class="idea-card">
-    <mat-card-header>
-      <div mat-card-avatar class="idea-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="../../assets/img/lightning.jpg" alt="Photo of an idea">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original... Read more
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>COMMENT</button>
-      <button mat-button>RATE</button>
-    </mat-card-actions>
-  </mat-card>
-  <mat-card class="idea-card">
-    <mat-card-header>
-      <div mat-card-avatar class="idea-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="../../assets/img/lightning.jpg" alt="Photo of an idea">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original... Read more
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>COMMENT</button>
-      <button mat-button>RATE</button>
-    </mat-card-actions>
-  </mat-card>
-  <mat-card class="idea-card">
-    <mat-card-header>
-      <div mat-card-avatar class="idea-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="../../assets/img/lightning.jpg" alt="Photo of an idea">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original... Read more
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>COMMENT</button>
-      <button mat-button>RATE</button>
-    </mat-card-actions>
-  </mat-card>
-  <mat-card class="idea-card">
-    <mat-card-header>
-      <div mat-card-avatar class="idea-header-image"></div>
-      <mat-card-title>Shiba Inu</mat-card-title>
-      <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-    </mat-card-header>
-    <img mat-card-image src="../../assets/img/lightning.jpg" alt="Photo of an idea">
-    <mat-card-content>
-      <p>
-        The Shiba Inu is the smallest of the six original... Read more
-      </p>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button>COMMENT</button>
-      <button mat-button>RATE</button>
-    </mat-card-actions>
-  </mat-card>
 </div>
+
+<form [formGroup]="newIdeaForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+    <textarea type="text" placeholder="Your idea" 
+      formControlName="ideaName" id="ideaTitle" rows="5" 
+      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ideaName.errors }">
+    </textarea>
+    <div *ngIf="submitted && f.ideaName.errors" class="invalid-feedback">
+      <div *ngIf="f.ideaName.errors.required">You can't create a no-name idea</div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button class="btn btn-primary">Create idea post</button>
+  </div>
+</form>
