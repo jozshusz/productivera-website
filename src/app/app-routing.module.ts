@@ -6,6 +6,9 @@ import { SideNavProjectsComponent } from './side-nav-projects/side-nav-projects.
 import { map } from 'rxjs/Operators';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
+import { RequestResetComponent } from './request-reset/request-reset.component';
+import { ResponseResetComponent } from './response-reset/response-reset.component';
+import { SignupComponent } from './signup/signup.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -18,8 +21,20 @@ const routes: Routes = [
     component: LoginComponent
   },
   {
-    path: 'profile/:id',
+    path: 'signup',
+    component: SignupComponent
+  },
+  {
+    path: 'profile',
     component: ProfileComponent
+  },
+  {
+    path: 'request-pw-reset',
+    component: RequestResetComponent
+  },
+  {
+    path: 'response-pw-reset',
+    component: ResponseResetComponent
   },
 
   //left sidebar routes

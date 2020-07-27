@@ -15,6 +15,10 @@ import { ProfileComponent } from './profile/profile.component';
 import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RequestResetComponent } from './request-reset/request-reset.component';
+import { ResponseResetComponent } from './response-reset/response-reset.component';
+import { HttpClientModule } from '@angular/common/http';
+import { SignupComponent } from './signup/signup.component';
 
 @NgModule({
    declarations: [
@@ -25,7 +29,10 @@ import { ReactiveFormsModule } from '@angular/forms';
       SideNavProjectsComponent,
       IdeasComponent,
       LoginComponent,
-      ProfileComponent
+      ProfileComponent,
+      RequestResetComponent,
+      ResponseResetComponent,
+      SignupComponent
    ],
    imports: [
       BrowserModule,
@@ -34,7 +41,8 @@ import { ReactiveFormsModule } from '@angular/forms';
       MatButtonModule,
       MDBBootstrapModule.forRoot(),
       FormsModule,
-      ReactiveFormsModule
+      ReactiveFormsModule,
+      HttpClientModule
    ],
    providers: [],
    bootstrap: [
