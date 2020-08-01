@@ -1,9 +1,20 @@
+.content{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.newIdea{
+    padding-left: 7%;
+    padding-top: 5%;
+}
+
 .idea-card {
     width: 20%;
 }
 
 .idea-header-image {
-    background-image: url('../../assets/img/engineer_pic.jpg');
     background-size: cover;
 }
 
@@ -16,7 +27,8 @@
 }
 
 .rating{
-    color: rgb(0, 117, 59);
+    color: rgb(0, 117, 59) !important;
+    display: inline-block;
 }
 
 .mat-card {
@@ -28,4 +40,24 @@
 
 .content{
     padding: 5%;
+}
+
+.default_prof_pic{
+    display: inline-block;
+}
+
+.form-control{
+    margin-top: 2%;
+}
+
+.newIdeaPostClass{
+    width: 40%;
+}
+
+.create_post{
+    margin-top: 2%;
+}
+
+.upvotedRating{
+    color: green;
 }

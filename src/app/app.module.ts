@@ -19,6 +19,8 @@ import { RequestResetComponent } from './request-reset/request-reset.component';
 import { ResponseResetComponent } from './response-reset/response-reset.component';
 import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
+import { CommentsComponent } from './comments/comments.component';
+import { OthersProfileComponent } from './others-profile/others-profile.component';
 
 @NgModule({
    declarations: [
@@ -32,7 +34,9 @@ import { SignupComponent } from './signup/signup.component';
       ProfileComponent,
       RequestResetComponent,
       ResponseResetComponent,
-      SignupComponent
+      SignupComponent,
+      CommentsComponent,
+      OthersProfileComponent
    ],
    imports: [
       BrowserModule,

@@ -15,8 +15,14 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Community</a>
       </li>
-      <li class="nav-item">
+      <li class="nav-item" *ngIf="!loggedIn">
         <a class="nav-link" routerLink="/login" routerLinkActive="is-active">Login</a>
+      </li>
+      <li class="nav-item" *ngIf="loggedIn">
+        <a class="nav-link" routerLink="/profile" routerLinkActive="is-active">Profile</a>
+      </li>
+      <li class="nav-item" *ngIf="loggedIn">
+        <a class="nav-link" href="#" (click)="logout($event)" routerLinkActive="is-active" >Logout</a>
       </li>
     </ul>
   </div>

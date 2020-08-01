@@ -22,4 +22,15 @@ export class AuthService {
       return this.http.post(this.baseUrl + 'login', data);
     }
 
+    sendPasswordResetLink(data){
+      return this.http.post(this.baseUrl + 'passwordResetLink', data);
+    }
+  
+    changePassword(data){
+      return this.http.post(this.baseUrl + 'changePassword', data);
+    }
+  
+    getCurrentUser(data){
+      return this.http.post(this.baseUrl + 'me', data);
+    }
 }

@@ -9,32 +9,43 @@ import { ProfileComponent } from './profile/profile.component';
 import { RequestResetComponent } from './request-reset/request-reset.component';
 import { ResponseResetComponent } from './response-reset/response-reset.component';
 import { SignupComponent } from './signup/signup.component';
+import { BeforeLoginService } from './services/before-login.service';
+import { AfterLoginService } from './services/after-login.service';
+import { CommentsComponent } from './comments/comments.component';
+import { OthersProfileComponent } from './others-profile/others-profile.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
 
   { path: 'home', component: HomeComponent },
   { path: 'ideas', component: IdeasComponent },
+  { path: 'ideas/:ideaId', component: CommentsComponent },
+  { path: 'profile/:userId', component: OthersProfileComponent },
 
   {
     path: 'login',
-    component: LoginComponent
+    component: LoginComponent, 
+    canActivate: [BeforeLoginService] 
   },
   {
     path: 'signup',
-    component: SignupComponent
+    component: SignupComponent, 
+    canActivate: [BeforeLoginService] 
   },
   {
     path: 'profile',
-    component: ProfileComponent
+    component: ProfileComponent,
+    canActivate: [AfterLoginService]
   },
   {
-    path: 'request-pw-reset',
-    component: RequestResetComponent
+    path: 'reqpwreset',
+    component: RequestResetComponent, 
+    canActivate: [BeforeLoginService]
   },
   {
-    path: 'response-pw-reset',
-    component: ResponseResetComponent
+    path: 'resppwreset',
+    component: ResponseResetComponent, 
+    canActivate: [BeforeLoginService]
   },
 
   //left sidebar routes

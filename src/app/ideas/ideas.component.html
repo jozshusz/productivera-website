@@ -1,40 +1,66 @@
+<div class="newIdea">
+  <button type="button" class="btn btn-primary" (click)="postNewIdeaButton()">Post new idea</button>
+  <form *ngIf="postNewIdea" [formGroup]="newIdeaForm" (ngSubmit)="onSubmit()" class="newIdeaPostClass">
+    <div class="form-group">
+      <input type="text" formControlName="ideaTitle" 
+            class="form-control" placeholder="Title"
+            [ngClass]="{ 'is-invalid': submitted && f.ideaTitle.errors }"/>
+      <div *ngIf="submitted && f.ideaTitle.errors" class="invalid-feedback">
+        <div *ngIf="f.ideaTitle.errors.required">You have to give a title</div>
+      </div>
+      <textarea type="text" placeholder="Your idea" 
+        formControlName="ideaDesc" id="ideaDesc" rows="5" 
+        class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ideaDesc.errors }">
+      </textarea>
+      <div *ngIf="submitted && f.ideaDesc.errors" class="invalid-feedback">
+        <div *ngIf="f.ideaDesc.errors.required">You have to give a description</div>
+      </div>
+    </div>
+    <div class="upload_idea_pic">
+      <p class="text_little">Upload a picture of your idea <br> (max 1MB)</p>
+      <input #selectFileInput type="file" (change)="onFileSelected($event)">
+      <div>
+        <span class="text-danger" *ngIf="picErrorMessage">{{ picErrorMessage }}</span>
+        <span class="text-success" *ngIf="picResponseMessage">{{ picResponseMessage }}</span>
+      </div>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-primary create_post" (click)="createNewPostButton()">Create idea post</button>
+    </div>
+  </form>
+</div>
+
 <div class="content">
-  <mat-card class="idea-card">
+  <mat-card class="idea-card" *ngFor="let idea of ideaList" id="{{ idea.id }}">
     <mat-card-header>
-        <div mat-card-avatar class="idea-header-image"></div>
-        <mat-card-title>Shiba Inu</mat-card-title>
-        <mat-card-subtitle>Dog Breed</mat-card-subtitle>
-        <div class="rating">
-          4.7 (36)
-        </div>
+        <img mat-card-avatar class="idea-header-image"
+        src="http://www.prodbackend.com/img/{{idea.user.avatar}}">
+        <mat-card-title>
+          <a [routerLink]="['../profile', idea.user.id]">
+            {{ idea.user.username }}
+          </a>
+        </mat-card-title>
+        <mat-card-subtitle>{{ idea.user.status }}</mat-card-subtitle>
     </mat-card-header>
-    <img mat-card-image src="../../assets/img/website_pic.jpg" alt="Photo of an idea">
+    <img mat-card-image src="http://www.prodbackend.com/img/{{idea.picture}}" alt="Photo of an idea">
     <mat-card-content>
       <h5>
-        <b>Idea title</b>
+        <a [routerLink]="['./', idea.id]">
+          <b>{{ (idea.title.length > 20) ? (idea.title | slice:0:20) + '...' : (idea.title) }}</b>
+        </a>
       </h5>
       <p>
-        I have an idea where people could... Read more
+        {{ (idea.description.length > 40) ? (idea.description | slice:0:40) + '...' : (idea.description) }}
       </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-button>COMMENT</button>
-      <button mat-button>RATE</button>
+      <div class="rating">
+        {{ idea.upvotes_count }}
+        <a href="#" (click)="upvote($event, idea.id)" [ngClass]="(!idea.upvoted)?'basicRating':'upvotedRating'">
+          <i class="fa fa-arrow-up" aria-hidden="true"></i>
+        </a>
+      </div>
+      <a mat-button [routerLink]="['./', idea.id]">COMMENT</a>
     </mat-card-actions>
   </mat-card>
 </div>
-
-<form [formGroup]="newIdeaForm" (ngSubmit)="onSubmit()">
-  <div class="form-group">
-    <textarea type="text" placeholder="Your idea" 
-      formControlName="ideaName" id="ideaTitle" rows="5" 
-      class="form-control" [ngClass]="{ 'is-invalid': submitted && f.ideaName.errors }">
-    </textarea>
-    <div *ngIf="submitted && f.ideaName.errors" class="invalid-feedback">
-      <div *ngIf="f.ideaName.errors.required">You can't create a no-name idea</div>
-    </div>
-  </div>
-  <div class="form-group">
-    <button class="btn btn-primary">Create idea post</button>
-  </div>
-</form>
