@@ -1,20 +1,21 @@
 import { Component, OnInit } from '@angular/core';
-import { CommentService } from '../services/comment.service';
-import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { TokenService } from '../services/token.service';
+import { PostCommentService } from '../services/post-comment.service';
 
 @Component({
-  selector: 'app-comments',
-  templateUrl: './comments.component.html',
-  styleUrls: ['./comments.component.scss']
+  selector: 'app-post-comments',
+  templateUrl: './post-comments.component.html',
+  styleUrls: ['./post-comments.component.scss']
 })
-export class CommentsComponent implements OnInit {
+export class PostCommentsComponent implements OnInit {
 
   commentList = null;
-  ideaPostId = null;
+  postId = null;
   isLoggedIn = false;
-  idea = null;
+  post = null;
+
   newComment = false;
   newCommentForm: FormGroup;
   submitted = false;
@@ -22,7 +23,7 @@ export class CommentsComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private commentService: CommentService,
+    private postCommentService: PostCommentService,
     private route: ActivatedRoute,
     private tokenService: TokenService
   ) { }
@@ -30,11 +31,11 @@ export class CommentsComponent implements OnInit {
   ngOnInit() {
     this.newCommentForm = this.formBuilder.group({
       commentText: ['', Validators.required],
-      ideaId: ['', Validators.required],
+      postId: ['', Validators.required],
       token: null
     });
     this.route.paramMap.subscribe( paramMap => {
-      this.ideaPostId = paramMap.get('ideaId');
+      this.postId = paramMap.get('postId');
       this.initComments();
       this.isLoggedIn = this.tokenService.loggedIn();
       this.token = {
@@ -42,17 +43,17 @@ export class CommentsComponent implements OnInit {
       };
     });
   }
-
+  
   initComments(){
-    this.commentService.getComments(this.ideaPostId).subscribe(
+    this.postCommentService.getPostComments(this.postId).subscribe(
       data => {
-        this.idea = data['idea'][0];
+        this.post = data['post'][0];
         this.commentList = data['comments'].data;
       },
       error => console.log(error)
     );
   }
-
+  
   newCommentButton(){
     this.newComment = !this.newComment;
   }
@@ -60,14 +61,14 @@ export class CommentsComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.newCommentForm.controls['token'].setValue(this.token['token']);
-    this.newCommentForm.controls['ideaId'].setValue(this.ideaPostId);
-    this.commentService.createNewComment(this.newCommentForm.value)
+    this.newCommentForm.controls['postId'].setValue(this.postId);
+    this.postCommentService.createNewPostComment(this.newCommentForm.value)
       .subscribe((res: any) => {
         var toInsert = res['comment'];
         toInsert['user'] = res['user'];
         this.commentList.unshift(res['comment']);
 
-        this.newCommentForm.controls["ideaId"].setValue("");
+        this.newCommentForm.controls["postId"].setValue("");
         this.newCommentForm.controls["commentText"].setValue("");
         this.newCommentButton();
       }, error => {
@@ -76,4 +77,5 @@ export class CommentsComponent implements OnInit {
   }
 
   get f() { return this.newCommentForm.controls; }
+
 }

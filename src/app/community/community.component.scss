@@ -1,0 +1,42 @@
+.content{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.post-card {
+    width: 20%;
+}
+
+.mat-card {
+    margin: 2%;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.671);
+    font-family: "Montserrat", Sans-serif;
+}
+
+.content{
+    padding: 5%;
+}
+
+.categories{
+    color: rgb(99, 99, 99);
+}
+
+.newPostContainer{
+    padding-left: 7%;
+    padding-top: 5%;
+}
+
+.form-control{
+    margin-top: 2%;
+}
+
+.newPostClass{
+    width: 40%;
+}
+
+.create_post{
+    margin-top: 2%;
+}

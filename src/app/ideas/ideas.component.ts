@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { IdeaService } from '../services/idea.service';
 import { ViewChild } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../services/token.service';
 
 @Component({
@@ -65,7 +65,7 @@ export class IdeasComponent implements OnInit {
 
   postNewIdeaButton(){
     this.postNewIdea = !this.postNewIdea;
-    this.selectedFile = null
+    this.selectedFile = null;
   }
 
   // Upload idea pic
@@ -104,13 +104,12 @@ export class IdeasComponent implements OnInit {
     var toInsert = idea['idea'];
     toInsert['user'] = idea['user'];
     toInsert['upvotes'] = idea['upvotes'];
-    this.ideaList.push(toInsert);
+    this.ideaList.unshift(toInsert);
 
     this.newIdeaForm.controls["ideaTitle"].setValue("");
     this.newIdeaForm.controls["ideaDesc"].setValue("");
     this.postNewIdeaButton();
     this.submitted = false;
-    console.log(idea['idea'].id);
 
     setTimeout( () => { document.getElementById(idea['idea'].id).scrollIntoView({ block: 'center',  behavior: 'smooth' }); }, 1000 );
   }

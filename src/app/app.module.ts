@@ -21,6 +21,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { SignupComponent } from './signup/signup.component';
 import { CommentsComponent } from './comments/comments.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
+import { CommunityComponent } from './community/community.component';
+import { PostCommentsComponent } from './post-comments/post-comments.component';
 
 @NgModule({
    declarations: [
@@ -36,7 +38,9 @@ import { OthersProfileComponent } from './others-profile/others-profile.componen
       ResponseResetComponent,
       SignupComponent,
       CommentsComponent,
-      OthersProfileComponent
+      OthersProfileComponent,
+      CommunityComponent,
+      PostCommentsComponent
    ],
    imports: [
       BrowserModule,

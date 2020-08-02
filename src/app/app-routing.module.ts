@@ -13,13 +13,17 @@ import { BeforeLoginService } from './services/before-login.service';
 import { AfterLoginService } from './services/after-login.service';
 import { CommentsComponent } from './comments/comments.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
+import { CommunityComponent } from './community/community.component';
+import { PostCommentsComponent } from './post-comments/post-comments.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
 
   { path: 'home', component: HomeComponent },
   { path: 'ideas', component: IdeasComponent },
+  { path: 'community', component: CommunityComponent },
   { path: 'ideas/:ideaId', component: CommentsComponent },
+  { path: 'community/:postId', component: PostCommentsComponent },
   { path: 'profile/:userId', component: OthersProfileComponent },
 
   {

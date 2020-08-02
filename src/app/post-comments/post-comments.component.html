@@ -1,0 +1,41 @@
+<div class="content">
+  <div class="post_title">
+    <h2 *ngIf="post">
+      {{ post.text }}
+    </h2>
+  </div>
+  <div class="new_comment">
+    <button type="button" class="btn btn-primary" (click)="newCommentButton()">Write a new comment</button>
+    <form *ngIf="newComment" [formGroup]="newCommentForm" (ngSubmit)="onSubmit()" class="newCommentClass">
+      <div class="form-group">
+        <textarea type="text" placeholder="Your comment" 
+          formControlName="commentText" id="commentText" rows="5" 
+          class="form-control" [ngClass]="{ 'is-invalid': submitted && f.commentText.errors }"></textarea>
+        <div *ngIf="submitted && f.commentText.errors" class="invalid-feedback">
+          <div *ngIf="f.commentText.errors.required">You can't submit an empty comment</div>
+        </div>
+      </div>
+      <div class="form-group">
+        <button class="btn btn-primary create_comment">Send comment</button>
+      </div>
+    </form>
+  </div>
+  <div class="comments_content">
+    <h2>
+      Comments
+    </h2>
+    <div *ngFor="let comment of commentList" id="{{ comment.id }}" class="individual_comment">
+      <div class="comment_text">
+        {{ comment.text }}
+      </div>
+      <div class="comment_date">
+        {{ comment.updated_at }}
+      </div>
+      <div class="comment_owner">
+        <a [routerLink]="['../../profile', comment.user.id]">
+          {{ comment.user.username }}
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
