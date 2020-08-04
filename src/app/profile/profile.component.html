@@ -26,4 +26,86 @@
       </li>
     </ul>
   </div>
+  <div *ngIf="profileInfo" class="section_cont notifications">
+    <h2>Notifications</h2>
+    <mat-list>
+      <mat-list-item *ngIf="displayNotification && displayNotification.length == 0">
+        <div mat-line class="my-auto text-center">
+          <p>You don't have any notifications.</p>
+        </div>
+      </mat-list-item>
+      <mat-list-item *ngFor="let notification of displayNotification" [ngClass]="{'newNotificationClass': !notification.opened}">
+          <a mat-line class="notificationsClass" [routerLink]="" (click)="toggleMsgNoti(notification, true)">
+            {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
+          </a>
+          <div *ngIf="notification.show" mat-line>
+            <a href="#">
+              Display
+            </a>
+          </div>
+          <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+    <a *ngIf="!allNotifShowing && displayNotification.length>0" [routerLink]="" (click)="showMoreNotification()">
+      Show all
+    </a>
+    <a *ngIf="allNotifShowing" [routerLink]="" (click)="showLessNotification()">
+      Show less
+    </a>
+  </div>
+  <div *ngIf="profileInfo" class="section_cont messages">
+    <h2>Messages</h2>
+    <h3>Received messages</h3>
+    <mat-list>
+      <mat-list-item *ngIf="profileInfo.received && profileInfo.received.length == 0">
+        <div mat-line class="my-auto text-center">
+          <p>You haven't received any messages.</p>
+        </div>
+      </mat-list-item>
+      <mat-list-item  *ngFor="let receivedMsg of profileInfo.received" [ngClass]="{'newNotificationClass': !receivedMsg.opened}">
+        <a mat-line class="receivedMessagesClass" [routerLink]="" (click)="toggleMsgNoti(receivedMsg, true)">Subject: {{ receivedMsg.header }}</a>
+        <div mat-line *ngIf="receivedMsg.show" class="message_display">
+          <p mat-line><b>Sent by:</b> {{ receivedMsg.sender.username }}</p>
+          <p mat-line class="long_text"><b>Message:</b> {{ receivedMsg.body }}</p>
+          <p mat-line><b>Date:</b> {{ receivedMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+          <button mat-button 
+          style="background-color: rgba(255, 255, 255, 0.322); margin-left: 2%;" 
+          (click)="replyToMessage()">
+            Reply
+          </button>
+          <form *ngIf="replyToMsg" [formGroup]="replyMessageForm" (ngSubmit)="onSubmit()" class="replyMessageClass">
+            <div class="form-group">
+              <textarea type="text" placeholder="Your message" 
+                formControlName="messageText" id="messageText" rows="5" 
+                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageText.errors }"></textarea>
+              <div *ngIf="submitted && f.messageText.errors" class="invalid-feedback">
+                <div *ngIf="f.messageText.errors.required">You have to give a text</div>
+              </div>
+            </div>
+            <div class="form-group">
+              <button class="btn btn-primary send_reply" (click)="sendTheReply(receivedMsg.sender.id, receivedMsg.header)">Send</button>
+            </div>
+          </form>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+    <h3>Sent messages</h3>
+    <mat-list>
+      <mat-list-item *ngIf="profileInfo.sent && profileInfo.sent.length == 0">
+        <div mat-line class="my-auto text-center">
+          <p>You haven't sent any messages.</p>
+        </div>
+      </mat-list-item>
+      <mat-list-item *ngFor="let sentMsg of profileInfo.sent">
+        <a mat-line class="sentMessagesClass" [routerLink]="" (click)="toggleMsgNoti(sentMsg, false)">Subject: {{ sentMsg.header }}</a>
+        <div mat-line *ngIf="sentMsg.show" class="message_display">
+          <p mat-line><b>To:</b> {{ sentMsg.receiver.username }}</p>
+          <p mat-line class="long_text"><b>Message:</b> {{ sentMsg.body }}</p>
+          <p mat-line><b>Date:</b> {{ sentMsg.created_at | date: 'yyyy-MM-dd HH:mm' }}</p>
+        </div>
+        <mat-divider></mat-divider>
+      </mat-list-item>
+    </mat-list>
+  </div>
 </div>

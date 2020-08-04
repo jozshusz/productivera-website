@@ -1,3 +1,38 @@
 .own_avatar{
     width: 40px;
 }
+
+.section_cont{
+    padding: 4%;
+    margin-top: 2%;
+    background-color: white;
+    box-shadow: 1px 1px 5px #888888;
+    border-radius: 15px;
+}
+
+.newNotificationClass{
+    background-color: #f8b7b7;
+}
+
+.message_display{
+    background-color: #f0f1f1;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-line .long_text{
+    font-size: 20px;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+}
+
+.mat-list{
+    margin-bottom: 4%;
+}
+
+.messages, .notifications{
+    width: 40%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 2%;
+    margin-bottom: 2%;
+    color: black;
+}

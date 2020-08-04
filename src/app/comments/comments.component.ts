@@ -3,6 +3,7 @@ import { CommentService } from '../services/comment.service';
 import { ActivatedRoute } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
+import { MsgNotiService } from '../services/msg-noti.service';
 
 @Component({
   selector: 'app-comments',
@@ -19,12 +20,14 @@ export class CommentsComponent implements OnInit {
   newCommentForm: FormGroup;
   submitted = false;
   token = null;
+  userId = null;
 
   constructor(
     private formBuilder: FormBuilder,
     private commentService: CommentService,
     private route: ActivatedRoute,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private msgNotiService: MsgNotiService
   ) { }
 
   ngOnInit() {
@@ -40,6 +43,8 @@ export class CommentsComponent implements OnInit {
       this.token = {
         'token': this.tokenService.get()
       };
+
+      this.userId = this.tokenService.getUserId();
     });
   }
 
@@ -70,6 +75,19 @@ export class CommentsComponent implements OnInit {
         this.newCommentForm.controls["ideaId"].setValue("");
         this.newCommentForm.controls["commentText"].setValue("");
         this.newCommentButton();
+
+        if(this.idea.user_id != this.userId){
+          // send notifications to the owner of the idea post 
+          // only if the owner is not the one sending the comment
+          this.msgNotiService.notifyOwner({
+            'token': this.tokenService.get(),
+            'ideaId': this.idea.id,
+            'commentId': res['comment'].id
+          }).subscribe(
+            data => console.log('Comment sent'),
+            error => console.log(error)
+          );
+        }
       }, error => {
         console.error(error);
       });

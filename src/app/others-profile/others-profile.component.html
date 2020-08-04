@@ -20,11 +20,33 @@
           {{ profileInfo.status }}
         </h4>
       </li>
-      <li>
-        <a mat-button [routerLink]="['../../message', profileInfo.id]" style="background-color: rgba(255, 255, 255, 0.322);">
-          Message
-        </a>
-      </li>
     </ul>
+    <div class="messages_container">
+      <button mat-button 
+      style="background-color: rgba(255, 255, 255, 0.322); margin-left: 2%;" 
+      (click)="newMessage()">
+        New message
+      </button>
+      <form *ngIf="sendNewMessageToggle" [formGroup]="newMessageForm" (ngSubmit)="onSubmit()" class="newMessageClass">
+        <div class="form-group">
+          <input type="text" formControlName="messageHeader" 
+                class="form-control" placeholder="Header"
+                [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
+          <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
+            <div *ngIf="f.messageHeader.errors.required">Write a header</div>
+          </div>
+          <textarea type="text" placeholder="Your message" 
+            formControlName="messageText" id="messageText" rows="5" 
+            class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageText.errors }">
+          </textarea>
+          <div *ngIf="submitted && f.messageText.errors" class="invalid-feedback">
+            <div *ngIf="f.messageText.errors.required">You have to give a text</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <button class="btn btn-primary send_msg">Send</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

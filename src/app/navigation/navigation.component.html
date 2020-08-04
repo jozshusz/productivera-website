@@ -19,10 +19,15 @@
         <a class="nav-link" routerLink="/login" routerLinkActive="is-active">Login</a>
       </li>
       <li class="nav-item" *ngIf="loggedIn">
-        <a class="nav-link" routerLink="/profile" routerLinkActive="is-active">Profile</a>
+        <a class="nav-link" routerLink="/profile" 
+        routerLinkActive="is-active">
+          <div matBadge="!" matBadgePosition="before" matBadgeColor="accent" matBadgeSize="small" [matBadgeHidden]="hideNotification">
+            Profile
+          </div>
+        </a>
       </li>
       <li class="nav-item" *ngIf="loggedIn">
-        <a class="nav-link" href="#" (click)="logout($event)" routerLinkActive="is-active" >Logout</a>
+        <a class="nav-link" href="#" (click)="logout($event)" routerLinkActive="is-active">Logout</a>
       </li>
     </ul>
   </div>

@@ -23,6 +23,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
 import { CommunityComponent } from './community/community.component';
 import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { MatListModule } from '@angular/material/list';
+import { MatBadgeModule } from '@angular/material/badge';
 
 @NgModule({
    declarations: [
@@ -50,7 +52,9 @@ import { PostCommentsComponent } from './post-comments/post-comments.component';
       MDBBootstrapModule.forRoot(),
       FormsModule,
       ReactiveFormsModule,
-      HttpClientModule
+      HttpClientModule,
+      MatListModule,
+      MatBadgeModule
    ],
    providers: [],
    bootstrap: [
