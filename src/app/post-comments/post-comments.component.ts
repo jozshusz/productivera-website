@@ -22,6 +22,9 @@ export class PostCommentsComponent implements OnInit {
   submitted = false;
   token = null;
   userId = null;
+  commentUrlParam = null;
+  notScrolled = true;
+  adminOrMod = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -38,12 +41,21 @@ export class PostCommentsComponent implements OnInit {
       token: null
     });
     this.route.paramMap.subscribe( paramMap => {
+      this.commentUrlParam = paramMap.get('comment');
       this.postId = paramMap.get('postId');
       this.initComments();
       this.isLoggedIn = this.tokenService.loggedIn();
       this.token = {
         'token': this.tokenService.get()
       };
+      
+      // check if user is logged in
+      if(this.isLoggedIn){
+        this.userId = this.tokenService.getUserId();
+        if(this.tokenService.getUserStatus() == 'admin' || this.tokenService.getUserStatus() == 'mod'){
+          this.adminOrMod = true;
+        }
+      }
     });
 
     this.userId = this.tokenService.getUserId();
@@ -97,5 +109,32 @@ export class PostCommentsComponent implements OnInit {
   }
 
   get f() { return this.newCommentForm.controls; }
+  
+  // scroll only if the view is finished
+  ngAfterViewChecked(){
+    if(this.commentUrlParam && document.getElementById(this.commentUrlParam) && this.notScrolled){
+      document.getElementById(this.commentUrlParam).scrollIntoView({ block: 'center',  behavior: 'smooth' });
+      this.notScrolled = false;
+    }
+  }
+
+  // admin/mod delete
+  deleteComment(commentId){
+    document.getElementById("closeButton-" + commentId).click();
+    this.postCommentService.deletePostCommentByAdmin({
+      "commentId": commentId,
+      "token": this.token['token'],
+      "userPostId": this.post.id
+    }).subscribe(
+      data => {
+        console.log(data);
+        this.commentList.filter(x => x.id == commentId)[0]['moderated'] = true;
+        this.commentList.filter(x => x.id == commentId)[0]['text'] = data['text'];
+      },
+      error => {
+        this.commentList.filter(x => x.id == commentId)[0]['modTryDeleteAdmin'] = true;
+      }
+    );
+  }
 
 }

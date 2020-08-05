@@ -17,6 +17,8 @@ export class IdeasComponent implements OnInit {
   ideaList = null;
   token = null;
   userId = null;
+  isLoggedIn = false;
+  adminOrMod = false;
 
   postNewIdea = false;
   selectedFile: File = null;
@@ -45,6 +47,15 @@ export class IdeasComponent implements OnInit {
     };
     this.userId = this.tokenService.getUserId();
     this.initIdeas();
+    this.isLoggedIn = this.tokenService.loggedIn();
+
+    // check if user is logged in
+    if(this.isLoggedIn){
+      this.userId = this.tokenService.getUserId();
+      if(this.tokenService.getUserStatus() == 'admin' || this.tokenService.getUserStatus() == 'mod'){
+        this.adminOrMod = true;
+      }
+    }
   }
 
   initIdeas(){
@@ -146,5 +157,22 @@ export class IdeasComponent implements OnInit {
     }, error => {
       console.error(error);
     });
+  }
+  
+  // admin/mod delete
+  deleteIdea(ideaId, userId){
+    document.getElementById("closeButton-" + ideaId).click();
+    this.ideaService.deleteIdeaByAdmin({
+      "ideaId": ideaId,
+      "token": this.token['token'],
+      "userId": userId
+    }).subscribe(
+      data => {
+        this.ideaList = this.ideaList.filter(({ id }) => id !== ideaId); 
+      },
+      error => {
+        console.log('Error while deleting idea');
+      }
+    );
   }
 }

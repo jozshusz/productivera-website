@@ -33,6 +33,33 @@
 <div class="content">
   <mat-card class="idea-card" *ngFor="let idea of ideaList" id="{{ idea.id }}">
     <mat-card-header>
+      <div *ngIf="adminOrMod" class="adminDeleteDiv">
+        <!-- Button trigger modal -->
+        <button type="button" class="btn btn-light" data-toggle="modal" 
+        attr.data-target="#deleteConfirmModal-{{idea.id}}">
+          x
+        </button>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteConfirmModal-{{idea.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">Delete idea</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton-{{idea.id}}">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                Are you sure you want to delete this idea?
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                <button type="button" class="btn btn-primary" (click)="deleteIdea(idea.id, idea.user_id)">Delete idea</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
         <img mat-card-avatar class="idea-header-image"
         src="http://www.prodbackend.com/img/{{idea.user.avatar}}">
         <mat-card-title>
@@ -56,7 +83,7 @@
     <mat-card-actions>
       <div class="rating">
         {{ idea.upvotes_count }}
-        <a href="#" (click)="upvote($event, idea.id)" [ngClass]="(!idea.upvoted)?'basicRating':'upvotedRating'">
+        <a *ngIf="idea.user_id != userId" href="#" (click)="upvote($event, idea.id)" [ngClass]="(!idea.upvoted)?'basicRating':'upvotedRating'">
           <i class="fa fa-arrow-up" aria-hidden="true"></i>
         </a>
       </div>

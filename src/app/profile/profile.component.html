@@ -39,7 +39,10 @@
             {{ notification.message }} - {{ notification.created_at | date: 'yyyy-MM-dd HH:mm' }}
           </a>
           <div *ngIf="notification.show" mat-line>
-            <a href="#">
+            <a *ngIf="notification.idea_id" [routerLink]="['../ideas', notification.idea_id, {comment: notification.comment_id}]">
+              Display
+            </a>
+            <a *ngIf="notification.userpost_id" [routerLink]="['../community', notification.userpost_id, {comment: notification.comment_id}]">
               Display
             </a>
           </div>

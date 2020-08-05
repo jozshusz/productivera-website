@@ -18,5 +18,9 @@ export class CommentService {
   createNewComment(data) {
     return this.http.post(this.baseUrl + "createComment", data);
   }
+  
+  deleteCommentByAdmin(data){
+    return this.http.post(this.baseUrl + 'deleteCommentByAdmin', data);
+  }
 
 }

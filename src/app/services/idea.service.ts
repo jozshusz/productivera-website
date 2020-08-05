@@ -28,4 +28,8 @@ export class IdeaService {
   upvote(data) {
     return this.http.post(this.baseUrl + "upvoteIdea", data);
   }
+  
+  deleteIdeaByAdmin(data) {
+    return this.http.post(this.baseUrl + "deleteIdeaByAdmin", data);
+  }
 }

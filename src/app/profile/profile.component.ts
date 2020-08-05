@@ -90,7 +90,6 @@ export class ProfileComponent implements OnInit {
           data => msgNoti['opened'] = true,
           error => console.log(error)
         );
-        console.log('ja');
       }
     }
   }

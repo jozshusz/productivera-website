@@ -17,4 +17,8 @@ export class CommunityService {
   createNewPost(data) {
     return this.http.post(this.baseUrl + "createPost", data);
   }
+  
+  deleteUserPostByAdmin(data) {
+    return this.http.post(this.baseUrl + "deleteUserPostByAdmin", data);
+  }
 }

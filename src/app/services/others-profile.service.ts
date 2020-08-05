@@ -13,5 +13,9 @@ export class OthersProfileService {
   getOthersProfile(profileId) {
     return this.http.get(this.baseUrl + "othersProfile/" + profileId);
   }
+  
+  banUser(data){
+    return this.http.post(this.baseUrl + 'banUser', data);
+  }
 
 }

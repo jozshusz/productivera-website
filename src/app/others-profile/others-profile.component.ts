@@ -18,6 +18,10 @@ export class OthersProfileComponent implements OnInit {
   profileInfo = null;
   token = null;
   sendNewMessageToggle = false;
+  
+  isLoggedIn = false;
+  adminOrMod = false;
+  userId = null;
 
   constructor(
     private othersProfService: OthersProfileService,
@@ -41,6 +45,15 @@ export class OthersProfileComponent implements OnInit {
       this.token = {
         'token': this.tokenService.get()
       };
+      this.isLoggedIn = this.tokenService.loggedIn();
+
+      // check if user is logged in
+      if(this.isLoggedIn){
+        this.userId = this.tokenService.getUserId();
+        if(this.tokenService.getUserStatus() == 'admin' || this.tokenService.getUserStatus() == 'mod'){
+          this.adminOrMod = true;
+        }
+      }
     });
   }
 
@@ -70,5 +83,21 @@ export class OthersProfileComponent implements OnInit {
 
   newMessage(){
     this.sendNewMessageToggle = !this.sendNewMessageToggle;
+  }
+  
+  // admin/mod delete
+  banUser(userId){
+    document.getElementById("closeButton-" + userId).click();
+    this.othersProfService.banUser({
+      "token": this.token['token'],
+      "userId": userId
+    }).subscribe(
+      data => {
+        this.profileInfo['is_banned'] = true;
+      },
+      error => {
+        console.log('Error while banning the user');
+      }
+    );
   }
 }

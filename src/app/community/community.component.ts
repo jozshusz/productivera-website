@@ -16,6 +16,8 @@ export class CommunityComponent implements OnInit {
   token = null;
   userId = null;
   newPost = false;
+  isLoggedIn = false;
+  adminOrMod = false;
 
   constructor(
     private communityService: CommunityService,
@@ -36,6 +38,15 @@ export class CommunityComponent implements OnInit {
     this.userId = this.tokenService.getUserId();
 
     this.initPosts();
+    this.isLoggedIn = this.tokenService.loggedIn();
+    
+    // check if user is logged in
+    if(this.isLoggedIn){
+      this.userId = this.tokenService.getUserId();
+      if(this.tokenService.getUserStatus() == 'admin' || this.tokenService.getUserStatus() == 'mod'){
+        this.adminOrMod = true;
+      }
+    }
   }
 
   initPosts(){
@@ -75,6 +86,23 @@ export class CommunityComponent implements OnInit {
     this.submitted = false;
 
     setTimeout( () => { document.getElementById(res['post'].id).scrollIntoView({ block: 'center',  behavior: 'smooth' }); }, 1000 );
+  }
+
+  // admin/mod delete
+  deletePost(postId, userId){
+    document.getElementById("closeButton-" + postId).click();
+    this.communityService.deleteUserPostByAdmin({
+      "postId": postId,
+      "token": this.token['token'],
+      "userId": userId
+    }).subscribe(
+      data => {
+        this.postList = this.postList.filter(({ id }) => id !== postId); 
+      },
+      error => {
+        console.log('Error while deleting post');
+      }
+    );
   }
 
 }
