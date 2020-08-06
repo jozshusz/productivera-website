@@ -25,6 +25,7 @@ import { CommunityComponent } from './community/community.component';
 import { PostCommentsComponent } from './post-comments/post-comments.component';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 
 @NgModule({
    declarations: [
@@ -54,7 +55,8 @@ import { MatBadgeModule } from '@angular/material/badge';
       ReactiveFormsModule,
       HttpClientModule,
       MatListModule,
-      MatBadgeModule
+      MatBadgeModule,
+      MatCheckboxModule
    ],
    providers: [],
    bootstrap: [

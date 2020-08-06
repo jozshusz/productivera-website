@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
 import { StatusService } from '../services/status.service';
 import { Router } from '@angular/router';
 import { TokenService } from '../services/token.service';
@@ -6,6 +6,7 @@ import { ProfileService } from '../services/profile.service';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { MessageService } from '../services/message.service';
 import { MsgNotiService } from '../services/msg-noti.service';
+import { HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-profile',
@@ -21,6 +22,13 @@ export class ProfileComponent implements OnInit {
   submitted = false;
   displayNotification = null;
   allNotifShowing = false;
+  errorMessage = null;
+  responseMessage = null;
+  
+  selectedFile: File = null;
+
+  @ViewChild('selectFileInput')
+  selectFileInput: ElementRef;
 
   constructor(
     private statusService: StatusService,
@@ -117,4 +125,38 @@ export class ProfileComponent implements OnInit {
   }
 
   get f() { return this.replyMessageForm.controls; }
+
+  // Upload avatar
+  onFileSelected(event){
+    this.selectedFile = <File>event.target.files[0];
+  }
+
+  onUpload(){
+    this.responseMessage = null;
+    this.errorMessage = null;
+
+    const formData = new FormData();
+    const headers = new HttpHeaders();
+
+    headers.append('Content-Type', 'multipart/form-data');
+    headers.append('Accept', 'application/json');
+    formData.append('image', this.selectedFile);
+    formData.append('token', this.token['token']);
+
+    this.profileService.uploadAvatar(formData, headers).subscribe(
+      data => this.handleAvatarResponse(data),
+      error => this.handleAvatarError(error)
+    );
+  }
+
+  handleAvatarResponse(data){
+    this.selectFileInput.nativeElement.value = "";
+    this.responseMessage = data.message;
+    this.profileInfo.avatar = data.newAvatar;
+  }
+
+  handleAvatarError(error){
+    this.errorMessage = error.error.error;
+  }
+
 }

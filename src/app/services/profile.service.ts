@@ -15,4 +15,9 @@ export class ProfileService {
     return this.http.post(this.baseUrl + "ownProfile", data);
   }
 
+  uploadAvatar(data, headers){
+    return this.http.post(this.baseUrl + "avatarUpload", data, {
+      headers: headers
+    });
+  }
 }

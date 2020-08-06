@@ -1,3 +1,12 @@
+<form [formGroup]="searchForm" (ngSubmit)="searchSubmit()" class="search_form form-inline text-center justify-content-center">
+  <div class="form-group">
+    <input id="searchInput" formControlName="searchInput" class="form-control mr-sm-2" 
+    type="search" placeholder="Search..." aria-label="Search">
+  </div>
+  <div class="form-group">
+    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Keresés</button>
+  </div>
+</form>
 <div class="newIdea">
   <button type="button" class="btn btn-primary" (click)="postNewIdeaButton()">Post new idea</button>
   <form *ngIf="postNewIdea" [formGroup]="newIdeaForm" (ngSubmit)="onSubmit()" class="newIdeaPostClass">
@@ -15,6 +24,26 @@
       <div *ngIf="submitted && f.ideaDesc.errors" class="invalid-feedback">
         <div *ngIf="f.ideaDesc.errors.required">You have to give a description</div>
       </div>
+      <section class="categories-section">
+        Choose a category: <br>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.general">general</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.book">book</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.web">web</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.programming">programming</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.marketing">marketing</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.advertising">advertising</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.content">content</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.blog">blog</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.design">design</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.event">event</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.platform">platform</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.education">education</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.finance">finance</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.health">health</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.entertainment">entertainment</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.sales">sales</mat-checkbox>
+        <mat-checkbox class="category" [ngModelOptions]="{standalone: true}" [(ngModel)]="checkbox.other">other</mat-checkbox>
+      </section>
     </div>
     <div class="upload_idea_pic">
       <p class="text_little">Upload a picture of your idea <br> (max 1MB)</p>

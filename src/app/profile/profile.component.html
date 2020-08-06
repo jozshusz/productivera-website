@@ -8,6 +8,15 @@
       <li>
         <img class="own_avatar"
         src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
+        <div class="upload_avatar">
+          <p class="text_little">Upload an avatar <br> (max 1MB)</p>
+          <input #selectFileInput type="file" (change)="onFileSelected($event)">
+          <div>
+            <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
+            <span class="text-success" *ngIf="responseMessage">{{ responseMessage }}</span>
+          </div>
+          <button type="button" (click)="onUpload()" class="btn btn-primary">Upload</button>
+        </div>
       </li>
       <li>
         <h4>

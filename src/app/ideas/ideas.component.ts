@@ -4,6 +4,7 @@ import { IdeaService } from '../services/idea.service';
 import { ViewChild } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../services/token.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-ideas',
@@ -29,17 +30,46 @@ export class IdeasComponent implements OnInit {
   picResponseMessage = null;
   picErrorMessage = null;
 
+  submittedSearch = false;
+  searchForm: FormGroup;
+
+  checkbox = {
+    'general': true,
+    'book': false,
+    'web': false,
+    'programming': false,
+    'marketing': false,
+    'advertising': false,
+    'content': false,
+    'blog': false,
+    'design': false,
+    'event': false,
+    'platform': false,
+    'education': false,
+    'finance': false,
+    'health': false,
+    'entertainment': false,
+    'sales': false,
+    'other': false,
+  };
+
   constructor(
     private formBuilder: FormBuilder,
     private ideaService: IdeaService,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private searchService: SearchService
     ) { }
 
   ngOnInit() {
     this.newIdeaForm = this.formBuilder.group({
       ideaTitle: ['', Validators.required],
       ideaDesc: ['', Validators.required],
-      token: null
+      token: null,
+      categories: null
+    });
+    
+    this.searchForm = this.formBuilder.group({
+      searchInput: ['', Validators.required]
     });
 
     this.token = {
@@ -93,6 +123,7 @@ export class IdeasComponent implements OnInit {
       formData.append('image', this.selectedFile);
       formData.append('ideaTitle', this.newIdeaForm.value['ideaTitle']);
       formData.append('ideaDesc', this.newIdeaForm.value['ideaDesc']);
+      formData.append('categories', JSON.stringify(this.checkbox));
       formData.append('token', this.token['token']);
       this.ideaService.createNewIdeaWithPic(formData, headers)
         .subscribe((res: any) => {
@@ -102,6 +133,7 @@ export class IdeasComponent implements OnInit {
         });
     }else{
       this.newIdeaForm.controls['token'].setValue(this.token['token']);
+      this.newIdeaForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
       this.ideaService.createNewIdea(this.newIdeaForm.value)
         .subscribe((res: any) => {
           this.handleIdeaCreatedResponse(res);
@@ -174,5 +206,17 @@ export class IdeasComponent implements OnInit {
         console.log('Error while deleting idea');
       }
     );
+  }
+
+  // to submit search
+  searchSubmit(){
+    if(this.searchForm.value["searchInput"].trim()){
+      this.searchService.getIdeaSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
+        data => {
+          this.ideaList = data['data'];
+        },
+        error => console.log(error)
+      );
+    }
   }
 }
