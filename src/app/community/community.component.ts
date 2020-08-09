@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { CommunityService } from '../services/community.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
+import { SearchService } from '../services/search.service';
 
 @Component({
   selector: 'app-community',
@@ -19,17 +20,47 @@ export class CommunityComponent implements OnInit {
   isLoggedIn = false;
   adminOrMod = false;
 
+  submittedSearch = false;
+  searchForm: FormGroup;
+
+  paginatorData = null;
+  
+  checkbox = {
+    'general': true,
+    'book': false,
+    'web': false,
+    'programming': false,
+    'marketing': false,
+    'advertising': false,
+    'content': false,
+    'blog': false,
+    'design': false,
+    'event': false,
+    'platform': false,
+    'education': false,
+    'finance': false,
+    'health': false,
+    'entertainment': false,
+    'sales': false,
+    'other': false,
+  };
+
   constructor(
     private communityService: CommunityService,
     private formBuilder: FormBuilder,
-    private tokenService: TokenService
+    private tokenService: TokenService,
+    private searchService: SearchService
   ) { }
 
   ngOnInit() {
     this.newPostForm = this.formBuilder.group({
       postText: ['', Validators.required],
-      postCategory: ['', Validators.required],
-      token: null
+      token: null,
+      categories: null
+    });
+
+    this.searchForm = this.formBuilder.group({
+      searchInput: ['', Validators.required]
     });
 
     this.token = {
@@ -52,6 +83,7 @@ export class CommunityComponent implements OnInit {
   initPosts(){
     this.communityService.getPosts()
       .subscribe((res: any) => {
+        this.paginatorData = res;
         this.postList = res["data"];
       }, error => {
         console.error(error);
@@ -61,6 +93,7 @@ export class CommunityComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
     this.newPostForm.controls['token'].setValue(this.token['token']);
+    this.newPostForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
     this.communityService.createNewPost(this.newPostForm.value)
       .subscribe((res: any) => {
         this.handlePostCreatedResponse(res);
@@ -76,12 +109,16 @@ export class CommunityComponent implements OnInit {
   }
 
   handlePostCreatedResponse(res){
-    var toInsert = res['post'];
-    toInsert['user'] = res['user'];
-    this.postList.unshift(toInsert);
+    if(this.postList.length > 11){
+      this.byPageNumber(this.paginatorData["last_page_url"]);
+    }else{
+      var toInsert = res['post'];
+      toInsert['user'] = res['user'];
+      toInsert['categories'] = res['categories'];
+      this.postList.unshift(toInsert);
+    }
 
     this.newPostForm.controls["postText"].setValue("");
-    this.newPostForm.controls["postCategory"].setValue("");
     this.newPostButton();
     this.submitted = false;
 
@@ -105,4 +142,47 @@ export class CommunityComponent implements OnInit {
     );
   }
 
+  // to submit search
+  searchSubmit(){
+    if(this.searchForm.value["searchInput"].trim()){
+      this.searchService.getUserPostSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
+        data => {
+          this.postList = data['data'];
+        },
+        error => console.log(error)
+      );
+    }
+  }
+
+  // paginator 
+  prevPage() {
+    this.communityService.getPostsByUrl(this.paginatorData.prev_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.postList = data["data"];
+      },
+      error => console.log(error)
+    );
+  }
+
+  nextPage() {
+    this.communityService.getPostsByUrl(this.paginatorData.next_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.postList = data["data"];
+      },
+      error => console.log(error)
+    );
+  }
+
+  byPageNumber(pageNumber) {
+    let url = this.paginatorData["path"] + "?page=" + pageNumber;
+    this.communityService.getPostsByUrl(url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.postList = data["data"];
+      },
+      error => console.log(error)
+    );
+  }
 }

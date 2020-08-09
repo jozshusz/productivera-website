@@ -33,6 +33,8 @@ export class IdeasComponent implements OnInit {
   submittedSearch = false;
   searchForm: FormGroup;
 
+  paginatorData = null;
+
   checkbox = {
     'general': true,
     'book': false,
@@ -91,6 +93,7 @@ export class IdeasComponent implements OnInit {
   initIdeas(){
     this.ideaService.getIdeas()
       .subscribe((res: any) => {
+        this.paginatorData = res;
         this.ideaList = res["data"];
         this.checkUpvotedStatus();
       }, error => {
@@ -144,10 +147,15 @@ export class IdeasComponent implements OnInit {
   }
 
   handleIdeaCreatedResponse(idea){
-    var toInsert = idea['idea'];
-    toInsert['user'] = idea['user'];
-    toInsert['upvotes'] = idea['upvotes'];
-    this.ideaList.unshift(toInsert);
+    if(this.ideaList.length > 11){
+      this.byPageNumber(this.paginatorData["last_page_url"]);
+    }else{
+      var toInsert = idea['idea'];
+      toInsert['user'] = idea['user'];
+      toInsert['upvotes'] = idea['upvotes'];
+      toInsert['categories'] = idea['categories'];
+      this.ideaList.unshift(toInsert);
+    }
 
     this.newIdeaForm.controls["ideaTitle"].setValue("");
     this.newIdeaForm.controls["ideaDesc"].setValue("");
@@ -218,5 +226,40 @@ export class IdeasComponent implements OnInit {
         error => console.log(error)
       );
     }
+  }
+
+  // paginator 
+  prevPage() {
+    this.ideaService.getIdeasByUrl(this.paginatorData.prev_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.ideaList = data["data"];
+        this.checkUpvotedStatus();
+      },
+      error => console.log(error)
+    );
+  }
+
+  nextPage() {
+    this.ideaService.getIdeasByUrl(this.paginatorData.next_page_url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.ideaList = data["data"];
+        this.checkUpvotedStatus();
+      },
+      error => console.log(error)
+    );
+  }
+
+  byPageNumber(pageNumber) {
+    let url = this.paginatorData["path"] + "?page=" + pageNumber;
+    this.ideaService.getIdeasByUrl(url).subscribe(
+      data => {
+        this.paginatorData = data;
+        this.ideaList = data["data"];
+        this.checkUpvotedStatus();
+      },
+      error => console.log(error)
+    );
   }
 }

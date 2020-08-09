@@ -13,5 +13,9 @@ export class SearchService {
   getIdeaSearchResults(data) {
     return this.http.get(this.baseUrl + "getIdeaSearchResults/" + data);
   }
+  
+  getUserPostSearchResults(data) {
+    return this.http.get(this.baseUrl + "getUserPostSearchResults/" + data);
+  }
 
 }

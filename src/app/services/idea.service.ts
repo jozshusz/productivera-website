@@ -32,4 +32,8 @@ export class IdeaService {
   deleteIdeaByAdmin(data) {
     return this.http.post(this.baseUrl + "deleteIdeaByAdmin", data);
   }
+
+  getIdeasByUrl(url){
+    return this.http.get(url);
+  }
 }

@@ -22,6 +22,7 @@
 
 .categories{
     color: rgb(99, 99, 99);
+    display: inline-block;
 }
 
 .newPostContainer{
@@ -39,4 +40,8 @@
 
 .create_post{
     margin-top: 2%;
+}
+
+.search_form{
+    margin: 2%;
 }

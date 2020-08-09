@@ -21,4 +21,8 @@ export class CommunityService {
   deleteUserPostByAdmin(data) {
     return this.http.post(this.baseUrl + "deleteUserPostByAdmin", data);
   }
+  
+  getPostsByUrl(url){
+    return this.http.get(url);
+  }
 }
