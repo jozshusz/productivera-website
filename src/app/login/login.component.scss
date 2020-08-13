@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+.page_title{
+    margin-bottom: 7%;
+}
+
 .login_container{
     width: 40%;
     margin-top: 2%;
@@ -10,4 +14,42 @@
     margin-right: auto;
     background-color: rgba(255, 255, 255, 0.24);
     padding: 5%;
+}
+
+.login_form_group{
+    margin-top: 7%;
+}
+
+.mat-stroked-button{
+    margin-top: 7%;
+}
+
+.stroked_custom:focus{
+    box-shadow: none !important;
+}
+
+.stroked_custom:hover{
+    border-color: #97193f;
+    color: white;
+}
+
+.custom_btn{
+    color: white;
+    border-color: #BA1D4C;
+    background-color: #BA1D4C;
+}
+
+.custom_btn:hover{
+    background-color: #97193f;
+    border-color: #97193f !important;
+}
+
+.custom_btn:active{
+    color: white;
+    border-color: #97193f !important;
+    background-color: #97193f !important;
+}
+
+.custom_btn:focus{
+    box-shadow: none !important;
 }

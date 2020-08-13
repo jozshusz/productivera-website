@@ -19,15 +19,15 @@
               </div>
               <span class="text-danger" *ngIf="errorMessage">{{ errorMessage }}</span>
           </div>
-          <div class="form-group">
-              <button [disabled]="loading" class="btn btn-dark btn-block">
+          <div class="form-group login_form_group">
+              <button [disabled]="loading" class="btn btn-block custom_btn">
                   <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
                   Login
               </button>
-              <a class="register_button" mat-stroked-button [routerLink]="['/signup']">
+              <a class="register_button stroked_custom" mat-stroked-button [routerLink]="['/signup']">
                   Sign up
               </a>
-              <a class="pw_reset_button float-right" mat-stroked-button [routerLink]="['/reqpwreset']">
+              <a class="pw_reset_button float-right stroked_custom" mat-stroked-button [routerLink]="['/reqpwreset']">
                   Forgot password
               </a>
           </div>

@@ -21,10 +21,6 @@
     margin-top: 2%;
 }
 
-.comment_owner{
-    float: right;
-}
-
 .individual_comment{
     margin-top: 2%;
     margin-bottom: 2%;
@@ -32,4 +28,40 @@
 
 .adminDeleteDiv{
     color: black;
+}
+
+.break_words{
+    white-space: pre-line; 
+    word-wrap: break-word;
+}
+
+.new_button{
+    color: white;
+    border-color: #BA1D4C;
+    background-color: #BA1D4C !important;
+}
+
+.new_button:hover{
+    background-color: #97193f !important;
+    border-color: #97193f;
+}
+
+.new_button:active{
+    color: white;
+    border-color: #BA1D4C !important;
+    background-color: #BA1D4C !important;
+}
+
+.new_button:focus{
+    box-shadow: none !important;
+}
+
+.comment_date{
+    color: rgb(173, 173, 173);
+    font-size: 12px;
+}
+
+.comment_text{
+    padding-top: 1%;
+    padding-bottom: 1%;
 }

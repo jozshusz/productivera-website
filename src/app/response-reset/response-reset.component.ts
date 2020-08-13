@@ -57,7 +57,7 @@ export class ResponseResetComponent implements OnInit {
     this.errorMessage = error.error.errors;
 
     if(!this.errorMessage){
-      this.errorMessageEmailOrToken = "Az email nem megfelelő";
+      this.errorMessageEmailOrToken = "The email is wrong";
     }
 
     this.loading = false;

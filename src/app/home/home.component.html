@@ -8,7 +8,7 @@
         <h2>
           Have a presence. Be productive.
         </h2>
-        <button class="call_to_action_button">
+        <button class="call_to_action_button" (click)="learnMoreButton()">
           Learn more
         </button>
       </div>
@@ -26,14 +26,22 @@
     </div>
     <div class="row center_side justify-content-center">
       <h2 class="list_of_words_flow">
-        Create. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        Fail. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        Try again. &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-        <span class="white_word">Be the best.</span>
+        <div class="word space_word">
+          Create.
+        </div>
+        <div class="word space_word">
+          Fail.
+        </div>
+        <div class="word space_word">
+          Try again. 
+        </div>
+        <div class="word">
+          <span class="white_word">Be the best.</span>
+        </div>
       </h2>
     </div>
   </div>
-  <div class="information">
+  <div id="informationSection" class="information">
     <div class="row">
       <div class="col what_is_it">
         <h2>
@@ -55,7 +63,7 @@
       </div>
     </div>
     <div class="row center_button justify-content-center">
-      <button class="call_to_action_button">
+      <button routerLink="/ideas" class="call_to_action_button">
         Explore ideas
       </button>
     </div>

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { OthersProfileService } from '../services/others-profile.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
 import { MessageService } from '../services/message.service';
@@ -23,12 +23,17 @@ export class OthersProfileComponent implements OnInit {
   adminOrMod = false;
   userId = null;
 
+  tooManyCharHeader = false;
+  tooManyCharBody = false;
+  sentMsg = false;
+
   constructor(
     private othersProfService: OthersProfileService,
     private route: ActivatedRoute,
     private formBuilder: FormBuilder,
     private tokenService: TokenService,
-    private msgService: MessageService
+    private msgService: MessageService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -67,22 +72,42 @@ export class OthersProfileComponent implements OnInit {
   }
 
   onSubmit(){
-    this.submitted = true;
+    if(this.newMessageForm.value["messageHeader"].length < 71){
+      this.tooManyCharHeader = false;
+      if(this.newMessageForm.value["messageText"].length < 301){
+        this.tooManyCharBody = false;
+        this.submitted = true;
 
-    this.newMessageForm.controls['token'].setValue(this.token['token']);
-    this.newMessageForm.controls['receiver'].setValue(this.profileId);
-    this.msgService.sendMessage(this.newMessageForm.value)
-    .subscribe((res: any) => {
-      console.log(res);
-    }, error => {
-      console.error(error);
-    });
+        this.newMessageForm.controls['token'].setValue(this.token['token']);
+        this.newMessageForm.controls['receiver'].setValue(this.profileId);
+        this.msgService.sendMessage(this.newMessageForm.value)
+        .subscribe((res: any) => {
+          console.log(res);
+          this.submitted = false;
+          this.sendNewMessageToggle = !this.sendNewMessageToggle;
+          this.sentMsg = true;
+          this.newMessageForm.controls["messageHeader"].setValue("");
+          this.newMessageForm.controls["messageText"].setValue("");
+        }, error => {
+          console.error(error);
+        });
+      }else{
+        this.tooManyCharBody = true;
+      }
+    }else{
+      this.tooManyCharHeader = true;
+    }
   }
 
   get f() { return this.newMessageForm.controls; }
 
   newMessage(){
-    this.sendNewMessageToggle = !this.sendNewMessageToggle;
+    if(this.isLoggedIn){
+      this.sendNewMessageToggle = !this.sendNewMessageToggle;
+      this.sentMsg = false;
+    }else{
+      this.router.navigateByUrl('/login');
+    }
   }
   
   // admin/mod delete

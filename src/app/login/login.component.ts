@@ -46,6 +46,7 @@ export class LoginComponent implements OnInit {
   get f() { return this.loginForm.controls; }
 
   handleResponse(data){
+    this.loading = false;
     this.tokenService.handle(data.access_token, data.user_id, data.user_status);
     this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');

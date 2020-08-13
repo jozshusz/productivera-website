@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommentService } from '../services/comment.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
 import { MsgNotiService } from '../services/msg-noti.service';
@@ -24,13 +24,16 @@ export class CommentsComponent implements OnInit {
   commentUrlParam = null;
   notScrolled = true;
   adminOrMod = false;
+  tooManyCharComment = false;
+  loading = false;
 
   constructor(
     private formBuilder: FormBuilder,
     private commentService: CommentService,
     private route: ActivatedRoute,
     private tokenService: TokenService,
-    private msgNotiService: MsgNotiService
+    private msgNotiService: MsgNotiService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -69,38 +72,50 @@ export class CommentsComponent implements OnInit {
   }
 
   newCommentButton(){
-    this.newComment = !this.newComment;
+    if(this.isLoggedIn){
+      this.newComment = !this.newComment;
+    }else{
+      this.router.navigateByUrl('/login');
+    }
   }
 
   onSubmit(){
-    this.submitted = true;
-    this.newCommentForm.controls['token'].setValue(this.token['token']);
-    this.newCommentForm.controls['ideaId'].setValue(this.ideaPostId);
-    this.commentService.createNewComment(this.newCommentForm.value)
-      .subscribe((res: any) => {
-        var toInsert = res['comment'];
-        toInsert['user'] = res['user'];
-        this.commentList.unshift(res['comment']);
+    if(this.newCommentForm.value["commentText"].length < 301){
+      this.loading = true;
+      this.tooManyCharComment = false;
+      this.submitted = true;
+      this.newCommentForm.controls['token'].setValue(this.token['token']);
+      this.newCommentForm.controls['ideaId'].setValue(this.ideaPostId);
+      this.commentService.createNewComment(this.newCommentForm.value)
+        .subscribe((res: any) => {
+          this.loading = false;
+          var toInsert = res['comment'];
+          toInsert['user'] = res['user'];
+          this.commentList.unshift(res['comment']);
 
-        this.newCommentForm.controls["ideaId"].setValue("");
-        this.newCommentForm.controls["commentText"].setValue("");
-        this.newCommentButton();
+          this.newCommentForm.controls["ideaId"].setValue("");
+          this.newCommentForm.controls["commentText"].setValue("");
+          this.newCommentButton();
+          this.submitted = false;
 
-        if(this.idea.user_id != this.userId){
-          // send notifications to the owner of the idea post 
-          // only if the owner is not the one sending the comment
-          this.msgNotiService.notifyOwner({
-            'token': this.tokenService.get(),
-            'ideaId': this.idea.id,
-            'commentId': res['comment'].id
-          }).subscribe(
-            data => console.log('Comment sent'),
-            error => console.log(error)
-          );
-        }
-      }, error => {
-        console.error(error);
-      });
+          if(this.idea.user_id != this.userId){
+            // send notifications to the owner of the idea post 
+            // only if the owner is not the one sending the comment
+            this.msgNotiService.notifyOwner({
+              'token': this.tokenService.get(),
+              'ideaId': this.idea.id,
+              'commentId': res['comment'].id
+            }).subscribe(
+              data => console.log('Comment sent'),
+              error => console.log(error)
+            );
+          }
+        }, error => {
+          console.error(error);
+        });
+    }else{
+      this.tooManyCharComment = true;
+    }
   }
 
   get f() { return this.newCommentForm.controls; }

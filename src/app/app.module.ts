@@ -26,6 +26,10 @@ import { PostCommentsComponent } from './post-comments/post-comments.component';
 import { MatListModule } from '@angular/material/list';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatSelectModule } from '@angular/material/select';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
    declarations: [
@@ -56,7 +60,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
       HttpClientModule,
       MatListModule,
       MatBadgeModule,
-      MatCheckboxModule
+      MatCheckboxModule,
+      MatProgressSpinnerModule,
+      MatDividerModule,
+      MatSelectModule,
+      BrowserAnimationsModule
    ],
    providers: [],
    bootstrap: [

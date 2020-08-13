@@ -26,32 +26,30 @@
       </div>
     </div>
   </div>
-  <div class="information_of_user" *ngIf="profileInfo">
-    <ul>
-      <li>
+  <mat-spinner *ngIf="!profileInfo"></mat-spinner>
+  <div class="information_of_user container" *ngIf="profileInfo">
+    <div class="row">
+      <div class="col">
         <img class="own_avatar"
         src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
-      </li>
-      <li>
         <h4>
           {{ profileInfo.username }}
         </h4>
-      </li>
-      <li>
         <h4>
           {{ profileInfo.email }}
         </h4>
-      </li>
-      <li>
         <h4>
           {{ profileInfo.status }}
         </h4>
-      </li>
-    </ul>
+      </div>
+      <div class="col">
+        From: {{ profileInfo.country }}
+      </div>
+    </div>
     <div class="messages_container">
       <button mat-button 
       style="background-color: rgba(255, 255, 255, 0.322); margin-left: 2%;" 
-      (click)="newMessage()">
+      (click)="newMessage()" *ngIf="profileId != userId">
         New message
       </button>
       <form *ngIf="sendNewMessageToggle" [formGroup]="newMessageForm" (ngSubmit)="onSubmit()" class="newMessageClass">
@@ -70,10 +68,19 @@
             <div *ngIf="f.messageText.errors.required">You have to give a text</div>
           </div>
         </div>
+        <div *ngIf="tooManyCharHeader" class="text-danger">
+          <div>The header must be less than 71 characters!</div>
+        </div>
+        <div *ngIf="tooManyCharBody" class="text-danger">
+          <div>The body must be less than 301 characters!</div>
+        </div>
         <div class="form-group">
           <button class="btn btn-primary send_msg">Send</button>
         </div>
       </form>
+      <div *ngIf="sentMsg" class="text-success">
+        <div>Message sent!</div>
+      </div>
     </div>
   </div>
 </div>

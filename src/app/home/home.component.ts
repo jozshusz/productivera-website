@@ -12,4 +12,8 @@ export class HomeComponent implements OnInit {
   ngOnInit() {
   }
 
+  learnMoreButton(){
+    document.getElementById("informationSection").scrollIntoView({ block: 'center',  behavior: 'smooth' });
+  }
+
 }

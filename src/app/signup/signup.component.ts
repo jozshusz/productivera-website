@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { TokenService } from '../services/token.service';
 import { StatusService } from '../services/status.service';
+import countries from '../../assets/countries.json';
 
 @Component({
   selector: 'app-signup',
@@ -18,6 +19,7 @@ export class SignupComponent implements OnInit {
   loading = false;
   tooManyCharEmail = false;
   tooManyCharUsername = false;
+  countryList = countries;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -31,6 +33,7 @@ export class SignupComponent implements OnInit {
     this.signupForm = this.formBuilder.group({
       username: ['', Validators.required],
       email: ['', Validators.required],
+      country: null,
       password: ['', Validators.required],
       password_confirmation: ['', Validators.required]
     });
@@ -39,16 +42,15 @@ export class SignupComponent implements OnInit {
   onSubmit(){
     this.submitted = true;
 
-    if(this.signupForm.value["email"].length < 29){
+    if(this.signupForm.value["email"].length < 31){
       this.tooManyCharEmail = false;
-      if(this.signupForm.value["username"].length < 29){
+      if(this.signupForm.value["username"].length < 31){
         this.tooManyCharUsername = false;
         this.loading = true;
         this.authService.signUp(this.signupForm.value).subscribe(
           data => this.handleResponse(data),
           error => this.handleError(error)
         );
-        this.loading = false;
       }else{
         this.tooManyCharUsername = true;
       }
@@ -60,6 +62,7 @@ export class SignupComponent implements OnInit {
   get f() { return this.signupForm.controls; }
 
   handleResponse(data){
+    this.loading = false;
     this.tokenService.handle(data.access_token, data.user_id, data.user_status);
     this.statusService.changeAuthStatus(true);
     this.router.navigateByUrl('/profile');
@@ -68,7 +71,7 @@ export class SignupComponent implements OnInit {
   // error handling for email format and password match
   handleError(error){
     this.errorMessage = error.error.errors;
-
+    console.log(error);
     this.loading = false;
   }
 

@@ -1,5 +1,6 @@
 <div class="content">
-  <div class="idea_title">
+  <div class="idea_title break_words">
+    <mat-spinner *ngIf="!idea"></mat-spinner>
     <h2 *ngIf="idea">
       {{ idea.title }}
     </h2>
@@ -11,7 +12,7 @@
     </p>
   </div>
   <div class="new_comment">
-    <button type="button" class="btn btn-primary" (click)="newCommentButton()">Write a new comment</button>
+    <button type="button" class="btn new_button" (click)="newCommentButton()">Write a new comment</button>
     <form *ngIf="newComment" [formGroup]="newCommentForm" (ngSubmit)="onSubmit()" class="newCommentClass">
       <div class="form-group">
         <textarea type="text" placeholder="Your comment" 
@@ -21,16 +22,23 @@
           <div *ngIf="f.commentText.errors.required">You can't submit an empty comment</div>
         </div>
       </div>
+      <div *ngIf="tooManyCharComment" class="text-danger">
+        <div>The comment must be less than 301 characters!</div>
+      </div>
       <div class="form-group">
-        <button class="btn btn-primary create_comment">Send comment</button>
+        <button class="btn create_comment new_button">
+          <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+          Send
+        </button>
       </div>
     </form>
   </div>
   <div class="comments_content">
-    <h2>
-      Comments
+    <h2 *ngIf="commentList">
+      Comments ({{commentList.length}})
     </h2>
-    <div *ngFor="let comment of commentList" id="{{ comment.id }}" class="individual_comment">
+    <mat-spinner *ngIf="!commentList"></mat-spinner>
+    <div *ngFor="let comment of commentList" id="{{ comment.id }}" class="individual_comment break_words">
       <div class="comment_text">
         {{ comment.text }}
         <div *ngIf="adminOrMod" class="adminDeleteDiv">
@@ -61,7 +69,7 @@
           </div>
         </div>
       <div class="comment_date">
-        {{ comment.updated_at }}
+        {{ comment.updated_at | date: 'yyyy-MM-dd HH:mm' }}
       </div>
       <div class="comment_owner">
         <a [routerLink]="['../../profile', comment.user.id]">
@@ -69,5 +77,6 @@
         </a>
       </div>
     </div>
+    <mat-divider></mat-divider>
   </div>
 </div>

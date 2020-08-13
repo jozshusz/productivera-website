@@ -5,6 +5,7 @@ import { ViewChild } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../services/token.service';
 import { SearchService } from '../services/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-ideas',
@@ -34,6 +35,11 @@ export class IdeasComponent implements OnInit {
   searchForm: FormGroup;
 
   paginatorData = null;
+  
+  tooManyCharTitle = false;
+  tooManyCharDescription = false;
+  loading = false;
+  searchLoading = false;
 
   checkbox = {
     'general': true,
@@ -59,7 +65,8 @@ export class IdeasComponent implements OnInit {
     private formBuilder: FormBuilder,
     private ideaService: IdeaService,
     private tokenService: TokenService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private router: Router
     ) { }
 
   ngOnInit() {
@@ -108,8 +115,12 @@ export class IdeasComponent implements OnInit {
   get f() { return this.newIdeaForm.controls; }
 
   postNewIdeaButton(){
-    this.postNewIdea = !this.postNewIdea;
-    this.selectedFile = null;
+    if(this.isLoggedIn){
+      this.postNewIdea = !this.postNewIdea;
+      this.selectedFile = null;
+    }else{
+      this.router.navigateByUrl('/login');
+    }
   }
 
   // Upload idea pic
@@ -118,35 +129,47 @@ export class IdeasComponent implements OnInit {
   }
 
   createNewPostButton(){
-    if(this.selectedFile != null){
-      const formData = new FormData();
-      const headers = new HttpHeaders();
-      headers.append('Content-Type', 'multipart/form-data');
-      headers.append('Accept', 'application/json');
-      formData.append('image', this.selectedFile);
-      formData.append('ideaTitle', this.newIdeaForm.value['ideaTitle']);
-      formData.append('ideaDesc', this.newIdeaForm.value['ideaDesc']);
-      formData.append('categories', JSON.stringify(this.checkbox));
-      formData.append('token', this.token['token']);
-      this.ideaService.createNewIdeaWithPic(formData, headers)
-        .subscribe((res: any) => {
-          this.handleIdeaCreatedResponse(res);
-        }, error => {
-          console.error(error);
-        });
+    if(this.newIdeaForm.value["ideaTitle"].length < 51){
+      this.tooManyCharTitle = false;
+      if(this.newIdeaForm.value["ideaDesc"].length < 251){
+        this.tooManyCharDescription = false;
+        this.loading = true;
+        if(this.selectedFile != null){
+          const formData = new FormData();
+          const headers = new HttpHeaders();
+          headers.append('Content-Type', 'multipart/form-data');
+          headers.append('Accept', 'application/json');
+          formData.append('image', this.selectedFile);
+          formData.append('ideaTitle', this.newIdeaForm.value['ideaTitle']);
+          formData.append('ideaDesc', this.newIdeaForm.value['ideaDesc']);
+          formData.append('categories', JSON.stringify(this.checkbox));
+          formData.append('token', this.token['token']);
+          this.ideaService.createNewIdeaWithPic(formData, headers)
+            .subscribe((res: any) => {
+              this.handleIdeaCreatedResponse(res);
+            }, error => {
+              console.error(error);
+            });
+        }else{
+          this.newIdeaForm.controls['token'].setValue(this.token['token']);
+          this.newIdeaForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
+          this.ideaService.createNewIdea(this.newIdeaForm.value)
+            .subscribe((res: any) => {
+              this.handleIdeaCreatedResponse(res);
+            }, error => {
+              console.error(error);
+            });
+        }
+      }else{
+        this.tooManyCharDescription = true;
+      }
     }else{
-      this.newIdeaForm.controls['token'].setValue(this.token['token']);
-      this.newIdeaForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
-      this.ideaService.createNewIdea(this.newIdeaForm.value)
-        .subscribe((res: any) => {
-          this.handleIdeaCreatedResponse(res);
-        }, error => {
-          console.error(error);
-        });
+      this.tooManyCharTitle = true;
     }
   }
 
   handleIdeaCreatedResponse(idea){
+    this.loading = false;
     if(this.ideaList.length > 11){
       this.byPageNumber(this.paginatorData["last_page_url"]);
     }else{
@@ -154,6 +177,7 @@ export class IdeasComponent implements OnInit {
       toInsert['user'] = idea['user'];
       toInsert['upvotes'] = idea['upvotes'];
       toInsert['categories'] = idea['categories'];
+      toInsert['comments_count'] = 0;
       this.ideaList.unshift(toInsert);
     }
 
@@ -178,25 +202,30 @@ export class IdeasComponent implements OnInit {
   }
 
   upvote(event: MouseEvent, ideaId){
-    var postData = {
-      'ideaId': ideaId,
-      'token': this.token['token']
-    };
-    event.preventDefault();
-    this.ideaService.upvote(postData)
-    .subscribe(
-      data => {
-        let isUpvoted = this.ideaList.filter(x => x.id == ideaId)[0].upvoted;
-        if(isUpvoted){
-          this.ideaList.filter(x => x.id == ideaId)[0].upvoted = false;
-          this.ideaList.filter(x => x.id == ideaId)[0].upvotes_count -= 1;
-        }else{
-          this.ideaList.filter(x => x.id == ideaId)[0].upvoted = true;
-          this.ideaList.filter(x => x.id == ideaId)[0].upvotes_count += 1;
-        }
-    }, error => {
-      console.error(error);
-    });
+    if(this.isLoggedIn){
+      var postData = {
+        'ideaId': ideaId,
+        'token': this.token['token']
+      };
+      event.preventDefault();
+      this.ideaService.upvote(postData)
+      .subscribe(
+        data => {
+          let isUpvoted = this.ideaList.filter(x => x.id == ideaId)[0].upvoted;
+          if(isUpvoted){
+            this.ideaList.filter(x => x.id == ideaId)[0].upvoted = false;
+            this.ideaList.filter(x => x.id == ideaId)[0].upvotes_count -= 1;
+          }else{
+            this.ideaList.filter(x => x.id == ideaId)[0].upvoted = true;
+            this.ideaList.filter(x => x.id == ideaId)[0].upvotes_count += 1;
+          }
+      }, error => {
+        console.error(error);
+      });
+    }else{
+      event.preventDefault();
+      this.router.navigateByUrl('/login');
+    }
   }
   
   // admin/mod delete
@@ -219,9 +248,11 @@ export class IdeasComponent implements OnInit {
   // to submit search
   searchSubmit(){
     if(this.searchForm.value["searchInput"].trim()){
+      this.searchLoading = true;
       this.searchService.getIdeaSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
         data => {
           this.ideaList = data['data'];
+          this.searchLoading = false;
         },
         error => console.log(error)
       );
@@ -238,6 +269,7 @@ export class IdeasComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 
   nextPage() {
@@ -249,6 +281,7 @@ export class IdeasComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 
   byPageNumber(pageNumber) {
@@ -261,5 +294,6 @@ export class IdeasComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 }

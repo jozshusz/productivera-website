@@ -3,6 +3,7 @@
     (click)="logout($event)">
     Sign out
   </button>
+  <mat-spinner *ngIf="!profileInfo"></mat-spinner>
   <div class="information_of_user" *ngIf="profileInfo">
     <ul>
       <li>

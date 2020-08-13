@@ -3,6 +3,7 @@ import { CommunityService } from '../services/community.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
 import { SearchService } from '../services/search.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-community',
@@ -24,6 +25,9 @@ export class CommunityComponent implements OnInit {
   searchForm: FormGroup;
 
   paginatorData = null;
+  tooManyCharDescription = false;
+  loading = false;
+  searchLoading = false;
   
   checkbox = {
     'general': true,
@@ -49,7 +53,8 @@ export class CommunityComponent implements OnInit {
     private communityService: CommunityService,
     private formBuilder: FormBuilder,
     private tokenService: TokenService,
-    private searchService: SearchService
+    private searchService: SearchService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -91,30 +96,42 @@ export class CommunityComponent implements OnInit {
   }
   
   onSubmit(){
-    this.submitted = true;
-    this.newPostForm.controls['token'].setValue(this.token['token']);
-    this.newPostForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
-    this.communityService.createNewPost(this.newPostForm.value)
-      .subscribe((res: any) => {
-        this.handlePostCreatedResponse(res);
-      }, error => {
-        console.error(error);
-      });
+    if(this.newPostForm.value["postText"].length < 301){
+      this.loading = true;
+      this.tooManyCharDescription = false;
+      this.submitted = true;
+      this.newPostForm.controls['token'].setValue(this.token['token']);
+      this.newPostForm.controls['categories'].setValue(JSON.stringify(this.checkbox));
+      this.communityService.createNewPost(this.newPostForm.value)
+        .subscribe((res: any) => {
+          this.handlePostCreatedResponse(res);
+        }, error => {
+          console.error(error);
+        });
+    }else{
+      this.tooManyCharDescription = true;
+    }
   }
 
   get f() { return this.newPostForm.controls; }
   
   newPostButton(){
-    this.newPost = !this.newPost;
+    if(this.isLoggedIn){
+      this.newPost = !this.newPost;
+    }else{
+      this.router.navigateByUrl('/login');
+    }
   }
 
   handlePostCreatedResponse(res){
+    this.loading = false;
     if(this.postList.length > 11){
       this.byPageNumber(this.paginatorData["last_page_url"]);
     }else{
       var toInsert = res['post'];
       toInsert['user'] = res['user'];
       toInsert['categories'] = res['categories'];
+      toInsert['comments_count'] = 0;
       this.postList.unshift(toInsert);
     }
 
@@ -145,9 +162,11 @@ export class CommunityComponent implements OnInit {
   // to submit search
   searchSubmit(){
     if(this.searchForm.value["searchInput"].trim()){
+      this.searchLoading = true;
       this.searchService.getUserPostSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
         data => {
           this.postList = data['data'];
+          this.searchLoading = false;
         },
         error => console.log(error)
       );
@@ -163,6 +182,7 @@ export class CommunityComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 
   nextPage() {
@@ -173,6 +193,7 @@ export class CommunityComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 
   byPageNumber(pageNumber) {
@@ -184,5 +205,6 @@ export class CommunityComponent implements OnInit {
       },
       error => console.log(error)
     );
+    window.scroll(0,0);
   }
 }

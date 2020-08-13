@@ -42,7 +42,7 @@ h2{
 }
 
 .purple_text{
-    color: #BA1D4C;
+    color: #ee0077;
 }
 
 .left_side{
@@ -81,7 +81,7 @@ h2{
 
 .information_text{
     font-size: 1.1em;
-    font-family: "Montserrat", Sans-serif;
+    font-family: 'Montserrat', sans-serif;
     color: black;
 }
 
@@ -96,4 +96,12 @@ h2{
 .center_button{
     margin-top: 5%;
     margin-bottom: 5%;
+}
+
+.word{
+    display: inline-block;
+}
+
+.space_word{
+    margin-right: 5vw;
 }
