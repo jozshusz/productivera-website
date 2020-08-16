@@ -171,7 +171,7 @@ export class IdeasComponent implements OnInit {
   handleIdeaCreatedResponse(idea){
     this.loading = false;
     if(this.ideaList.length > 11){
-      this.byPageNumber(this.paginatorData["last_page_url"]);
+      this.byPageNumber(this.paginatorData["first_page_url"]);
     }else{
       var toInsert = idea['idea'];
       toInsert['user'] = idea['user'];
@@ -251,6 +251,7 @@ export class IdeasComponent implements OnInit {
       this.searchLoading = true;
       this.searchService.getIdeaSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
         data => {
+          this.paginatorData = data;
           this.ideaList = data['data'];
           this.searchLoading = false;
         },

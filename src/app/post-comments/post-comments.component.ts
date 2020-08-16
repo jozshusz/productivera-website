@@ -27,6 +27,7 @@ export class PostCommentsComponent implements OnInit {
   adminOrMod = false;
   tooManyCharComment = false;
   loading = false;
+  paginatorData = null;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -68,6 +69,7 @@ export class PostCommentsComponent implements OnInit {
     this.postCommentService.getPostComments(this.postId).subscribe(
       data => {
         this.post = data['post'][0];
+        this.paginatorData = data['comments'];
         this.commentList = data['comments'].data;
       },
       error => console.log(error)
@@ -92,14 +94,21 @@ export class PostCommentsComponent implements OnInit {
       this.postCommentService.createNewPostComment(this.newCommentForm.value)
         .subscribe((res: any) => {
           this.loading = false;
-          var toInsert = res['comment'];
-          toInsert['user'] = res['user'];
-          this.commentList.unshift(res['comment']);
+
+          if(this.commentList.length > 11){
+            this.byPageNumber(this.paginatorData["first_page_url"]);
+            console.log("yea");
+          }else{
+            var toInsert = res['comment'];
+            toInsert['user'] = res['user'];
+            this.commentList.unshift(res['comment']);
+          }
 
           this.newCommentForm.controls["postId"].setValue("");
           this.newCommentForm.controls["commentText"].setValue("");
           this.newCommentButton();
           this.submitted = false;
+          this.post.comments_count += 1;
 
           if(this.post.user_id != this.userId){
             // send notifications to the owner of the user post 
@@ -151,6 +160,41 @@ export class PostCommentsComponent implements OnInit {
         this.commentList.filter(x => x.id == commentId)[0]['modTryDeleteAdmin'] = true;
       }
     );
+  }
+
+  // paginator 
+  prevPage() {
+    this.postCommentService.getPostCommentsByUrl(this.paginatorData.prev_page_url).subscribe(
+      data => {
+        this.paginatorData = data["comments"];
+        this.commentList = data["comments"].data;
+      },
+      error => console.log(error)
+    );
+    window.scroll(0,0);
+  }
+
+  nextPage() {
+    this.postCommentService.getPostCommentsByUrl(this.paginatorData.next_page_url).subscribe(
+      data => {
+        this.paginatorData = data["comments"];
+        this.commentList = data["comments"].data;
+      },
+      error => console.log(error)
+    );
+    window.scroll(0,0);
+  }
+
+  byPageNumber(pageNumber) {
+    let url = this.paginatorData["path"] + "?page=" + pageNumber;
+    this.postCommentService.getPostCommentsByUrl(url).subscribe(
+      data => {
+        this.paginatorData = data["comments"];
+        this.commentList = data["comments"].data;
+      },
+      error => console.log(error)
+    );
+    window.scroll(0,0);
   }
 
 }

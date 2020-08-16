@@ -1,10 +1,28 @@
-.own_avatar{
-    width: 40px;
+.profile_content{
+    margin-bottom: 10%;
+}
+
+.row{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.col{
+    padding: 5%;
+}
+
+.avatar_pic{
+    width: 100px;
+    border-radius: 50%;
+    margin-bottom: 5%;
 }
 
 .newMessageClass{
-    width: 40%;
     padding: 2%;
+    padding-left: 0;
 }
 
 .form-control{
@@ -13,4 +31,152 @@
 
 .adminBanDiv{
     color: black;
+}
+
+.pic_name{
+    border: 1px solid rgb(194, 194, 194);
+}
+
+.basic_infos{
+    border: 1px solid rgb(194, 194, 194);
+    border-left: none;
+}
+
+.new_button{
+    color: white;
+    border-color: #BA1D4C;
+    background-color: #BA1D4C !important;
+}
+
+.new_button:hover{
+    background-color: #97193f !important;
+    border-color: #97193f;
+}
+
+.new_button:active{
+    color: white;
+    border-color: #BA1D4C !important;
+    background-color: #BA1D4C !important;
+}
+
+.new_button:focus{
+    box-shadow: none !important;
+}
+
+.content{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.idea-card {
+    width: 20%;
+    color: black;
+}
+
+.idea-header-image {
+    background-size: cover;
+}
+
+.mat-card-image{
+    height: 180px; /* adjust as needed */
+    object-fit: contain;
+}
+
+.mat-card-title{
+    font-size: 16px;
+}
+
+.mat-card-subtitle{
+    font-size: 12px;
+}
+
+.rating{
+    color: rgb(0, 117, 59) !important;
+    display: inline-block;
+}
+
+.mat-card {
+    margin: 2%;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.671);
+    font-family: "Montserrat", Sans-serif;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 3px 12px #222222;
+}
+
+.load_all{
+    margin-left: 2%;
+    color: rgb(0, 102, 255);
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.upvotedRating{
+    color: green;
+}
+
+.categories-section{
+    margin: 2%;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 2%;
+    background-color: rgba(255, 255, 255, 0.445);
+}
+
+.category{
+    margin: 1%;
+}
+
+.categories{
+    color: rgb(99, 99, 99);
+    display: inline-block;
+    background-color: rgba(202, 202, 202, 0.596);
+    margin: 1%;
+    margin-left: 0;
+}
+
+.ideas_row{
+    width: 100%;
+}
+
+.break_words{
+    white-space: pre-line; 
+    word-wrap: break-word;
+}
+
+.mat-card-subtitle{
+    color: black;
+}
+
+a{
+    color: rgb(0, 46, 116);
+}
+
+.individual_comment{
+    margin-top: 2%;
+    margin-bottom: 2%;
+    margin-left: 2%;
+}
+
+.sub_title{
+    margin-left: 2%;
+}
+
+.not_found_yet{
+    margin-left: 2%;
+}
+
+.section{
+    margin-top: 2%;
+    margin-bottom: 4%;
 }

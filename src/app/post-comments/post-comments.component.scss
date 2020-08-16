@@ -65,3 +65,23 @@
     padding-top: 1%;
     padding-bottom: 1%;
 }
+
+.page-item.active .page-link{
+    color: white;
+    background-color: #BA1D4C;
+    border-color: #BA1D4C;
+}
+
+.page-link:focus{
+    box-shadow: none !important;
+}
+
+.page-link:hover{
+    background-color: #d37d97;
+    border-color: #d37d97;
+    color: black;
+}
+
+.page-link{
+    color: black;
+}

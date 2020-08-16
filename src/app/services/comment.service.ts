@@ -23,4 +23,7 @@ export class CommentService {
     return this.http.post(this.baseUrl + 'deleteCommentByAdmin', data);
   }
 
+  getCommentsByUrl(url){
+    return this.http.get(url);
+  }
 }

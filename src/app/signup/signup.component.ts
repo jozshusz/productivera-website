@@ -20,6 +20,7 @@ export class SignupComponent implements OnInit {
   tooManyCharEmail = false;
   tooManyCharUsername = false;
   countryList = countries;
+  countryWrong = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,11 +47,15 @@ export class SignupComponent implements OnInit {
       this.tooManyCharEmail = false;
       if(this.signupForm.value["username"].length < 31){
         this.tooManyCharUsername = false;
-        this.loading = true;
-        this.authService.signUp(this.signupForm.value).subscribe(
-          data => this.handleResponse(data),
-          error => this.handleError(error)
-        );
+        if(this.signupForm.value["country"] != null){
+          this.loading = true;
+          this.authService.signUp(this.signupForm.value).subscribe(
+            data => this.handleResponse(data),
+            error => this.handleError(error)
+          );
+        }else{
+          this.countryWrong = true;
+        }
       }else{
         this.tooManyCharUsername = true;
       }

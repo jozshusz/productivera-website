@@ -126,7 +126,7 @@ export class CommunityComponent implements OnInit {
   handlePostCreatedResponse(res){
     this.loading = false;
     if(this.postList.length > 11){
-      this.byPageNumber(this.paginatorData["last_page_url"]);
+      this.byPageNumber(this.paginatorData["first_page_url"]);
     }else{
       var toInsert = res['post'];
       toInsert['user'] = res['user'];
@@ -165,6 +165,7 @@ export class CommunityComponent implements OnInit {
       this.searchLoading = true;
       this.searchService.getUserPostSearchResults(this.searchForm.value["searchInput"].trim()).subscribe(
         data => {
+          this.paginatorData = data;
           this.postList = data['data'];
           this.searchLoading = false;
         },

@@ -1,85 +1,189 @@
 <div class="profile_content">
-  <div *ngIf="adminOrMod && profileInfo && profileId!=userId && !profileInfo.is_banned" class="adminBanDiv">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-light" data-toggle="modal" 
-    attr.data-target="#banConfirmModal-{{profileInfo.id}}">
-      Ban user
-    </button>
-    <!-- Modal -->
-    <div class="modal fade" id="banConfirmModal-{{profileInfo.id}}" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">Ban user</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton-{{profileInfo.id}}">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            Are you sure you want to ban this user?
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
-            <button type="button" class="btn btn-primary" (click)="banUser(profileInfo.id)">Ban user</button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
   <mat-spinner *ngIf="!profileInfo"></mat-spinner>
   <div class="information_of_user container" *ngIf="profileInfo">
     <div class="row">
-      <div class="col">
-        <img class="own_avatar"
+      <div class="col justify-content-center text-center pic_name">
+        <img class="avatar_pic"
         src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
-        <h4>
+        <h5>
           {{ profileInfo.username }}
-        </h4>
-        <h4>
-          {{ profileInfo.email }}
-        </h4>
-        <h4>
+        </h5>
+        <p>
+          {{ profileInfo.expertise }}
+        </p>
+        <p *ngIf="!profileInfo.expertise">
           {{ profileInfo.status }}
-        </h4>
+        </p>
+        <div *ngIf="adminOrMod && profileInfo && profileId!=userId && !profileInfo.is_banned" class="adminBanDiv">
+          <!-- Button trigger modal -->
+          <button type="button" class="btn btn-light" data-toggle="modal" 
+          attr.data-target="#banConfirmModal-{{profileInfo.id}}">
+            Ban user
+          </button>
+          <!-- Modal -->
+          <div class="modal fade" id="banConfirmModal-{{profileInfo.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">Ban user</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close" id="closeButton-{{profileInfo.id}}">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  Are you sure you want to ban this user?
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                  <button type="button" class="btn btn-primary" (click)="banUser(profileInfo.id)">Ban user</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div class="col">
-        From: {{ profileInfo.country }}
+      <div class="col basic_infos">
+        <p>
+          From: {{ profileInfo.country }}
+        </p>
+        <p *ngIf="profileInfo.description">
+          Description: {{ profileInfo.description }}
+        </p>
+        <p *ngIf="!profileInfo.description">
+          Description: -
+        </p>
+        <p>
+          Member since: {{ profileInfo.created_at | date: 'yyyy-MM-dd HH:mm' }}
+        </p>
+        <p>
+          Email: {{ profileInfo.email }}
+        </p>
+        <div class="messages_container">
+          <button mat-button 
+          style="background-color: rgba(255, 255, 255, 0.322);" 
+          (click)="newMessage()" *ngIf="profileId != userId && isLoggedIn">
+            New message
+          </button>
+          <form *ngIf="sendNewMessageToggle" [formGroup]="newMessageForm" (ngSubmit)="onSubmit()" class="newMessageClass">
+            <div class="form-group">
+              <input type="text" formControlName="messageHeader" 
+                    class="form-control" placeholder="Header"
+                    [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
+              <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
+                <div *ngIf="f.messageHeader.errors.required">Write a header</div>
+              </div>
+              <textarea type="text" placeholder="Your message" 
+                formControlName="messageText" id="messageText" rows="5" 
+                class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageText.errors }">
+              </textarea>
+              <div *ngIf="submitted && f.messageText.errors" class="invalid-feedback">
+                <div *ngIf="f.messageText.errors.required">You have to give a text</div>
+              </div>
+            </div>
+            <div *ngIf="tooManyCharHeader" class="text-danger">
+              <div>The header must be less than 71 characters!</div>
+            </div>
+            <div *ngIf="tooManyCharBody" class="text-danger">
+              <div>The body must be less than 301 characters!</div>
+            </div>
+            <div class="form-group">
+              <button class="btn new_button send_msg">
+                <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>
+                Send
+              </button>
+            </div>
+          </form>
+          <div *ngIf="sentMsg" class="text-success">
+            <div>Message sent!</div>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="messages_container">
-      <button mat-button 
-      style="background-color: rgba(255, 255, 255, 0.322); margin-left: 2%;" 
-      (click)="newMessage()" *ngIf="profileId != userId">
-        New message
-      </button>
-      <form *ngIf="sendNewMessageToggle" [formGroup]="newMessageForm" (ngSubmit)="onSubmit()" class="newMessageClass">
-        <div class="form-group">
-          <input type="text" formControlName="messageHeader" 
-                class="form-control" placeholder="Header"
-                [ngClass]="{ 'is-invalid': submitted && f.messageHeader.errors }"/>
-          <div *ngIf="submitted && f.messageHeader.errors" class="invalid-feedback">
-            <div *ngIf="f.messageHeader.errors.required">Write a header</div>
-          </div>
-          <textarea type="text" placeholder="Your message" 
-            formControlName="messageText" id="messageText" rows="5" 
-            class="form-control" [ngClass]="{ 'is-invalid': submitted && f.messageText.errors }">
-          </textarea>
-          <div *ngIf="submitted && f.messageText.errors" class="invalid-feedback">
-            <div *ngIf="f.messageText.errors.required">You have to give a text</div>
-          </div>
+    <div class="section">
+      <h3 class="sub_title">
+        Ideas:
+      </h3>
+      <div class="content">
+        <div *ngIf="profileInfo.ideas.length == 0" class="not_found_yet">
+          <p>
+            <br>This user hasn't posted any ideas yet.
+          </p>
         </div>
-        <div *ngIf="tooManyCharHeader" class="text-danger">
-          <div>The header must be less than 71 characters!</div>
+        <mat-spinner *ngIf="!profileInfo.ideas"></mat-spinner>
+        <mat-card class="idea-card break_words" *ngFor="let idea of profileInfo.ideas" id="{{ idea.id }}">
+          <mat-card-header>
+              <img mat-card-avatar class="idea-header-image"
+              src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
+              <mat-card-title>
+                <a [routerLink]="['../../profile', profileInfo.id]">
+                  {{ profileInfo.username }}
+                </a>
+              </mat-card-title>
+              <mat-card-subtitle>{{ profileInfo.status }}</mat-card-subtitle>
+          </mat-card-header>
+          <img mat-card-image src="http://www.prodbackend.com/img/{{idea.picture}}" alt="Photo of an idea">
+          <mat-card-content>
+            <h5>
+              <a [routerLink]="['../../ideas/', idea.id]">
+                <b>{{ (idea.title.length > 20) ? (idea.title | slice:0:20) + '...' : (idea.title) }}</b>
+              </a>
+            </h5>
+            <p>
+              {{ (idea.description.length > 40) ? (idea.description | slice:0:40) + '...' : (idea.description) }}
+            </p>
+            <p class="categories" *ngFor="let category of idea.categories">
+              {{ category.name }}&nbsp;
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <div class="rating">
+              {{ idea.upvotes_count }}
+              <a *ngIf="idea.user_id != userId" href="#" (click)="upvote($event, idea.id)" [ngClass]="(!idea.upvoted)?'basicRating':'upvotedRating'">
+                <i class="fa fa-arrow-up" aria-hidden="true"></i>
+              </a>
+            </div>
+            <a mat-button [routerLink]="['../../ideas/', idea.id]">COMMENT ({{idea.comments_count}})</a>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <a *ngIf="profileInfo.ideas.length > 0" class="load_all" [routerLink]="['../../ideas', profileInfo.id]">
+        Load more ideas from this user
+      </a>
+    </div>
+    <div class="section">
+      <h3 class="sub_title">
+        Community posts:
+      </h3>
+      <div class="content">
+        <div *ngIf="profileInfo.userposts.length == 0" class="not_found_yet">
+          <p>
+            <br>This doesn't have any community posts.
+          </p>
         </div>
-        <div *ngIf="tooManyCharBody" class="text-danger">
-          <div>The body must be less than 301 characters!</div>
-        </div>
-        <div class="form-group">
-          <button class="btn btn-primary send_msg">Send</button>
-        </div>
-      </form>
-      <div *ngIf="sentMsg" class="text-success">
-        <div>Message sent!</div>
+        <mat-spinner *ngIf="!profileInfo.userposts"></mat-spinner>
+        <mat-card class="post-card break_words" *ngFor="let post of profileInfo.userposts" id="{{ post.id }}">
+          <mat-card-header>
+              <img mat-card-avatar class="post-header-image"
+              src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
+              <mat-card-title>
+                <a [routerLink]="['../../profile', profileInfo.id]">
+                  {{ profileInfo.username }}
+                </a>
+              </mat-card-title>
+              <mat-card-subtitle>{{ profileInfo.status }}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{ (post.text.length > 200) ? (post.text | slice:0:200) + '...' : (post.text) }}
+            </p>
+            <p class="categories" *ngFor="let category of post.categories">
+              {{ category.name }}&nbsp;
+            </p>
+          </mat-card-content>
+          <mat-card-actions>
+            <a mat-button [routerLink]="['../../community/', post.id]">COMMENT ({{post.comments_count}})</a>
+          </mat-card-actions>
+        </mat-card>
       </div>
     </div>
   </div>

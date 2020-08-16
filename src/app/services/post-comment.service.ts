@@ -21,4 +21,8 @@ export class PostCommentService {
   deletePostCommentByAdmin(data){
     return this.http.post(this.baseUrl + 'deletePostCommentByAdmin', data);
   }
+  
+  getPostCommentsByUrl(url){
+    return this.http.get(url);
+  }
 }

@@ -31,6 +31,9 @@
             <option>Choose a country...</option>
             <option *ngFor="let country of countryList">{{ country.name }}</option>
           </select>
+          <div *ngIf="countryWrong" class="text-danger">
+              <div>Choose a country</div>
+          </div>
         </div>
         <div class="form-group">
             <label for="password">Password</label>

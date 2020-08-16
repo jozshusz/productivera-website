@@ -35,7 +35,7 @@
   </div>
   <div class="comments_content">
     <h2 *ngIf="commentList">
-      Comments ({{commentList.length}})
+      Comments ({{idea.comments_count}})
     </h2>
     <mat-spinner *ngIf="!commentList"></mat-spinner>
     <div *ngFor="let comment of commentList" id="{{ comment.id }}" class="individual_comment break_words">
@@ -80,3 +80,18 @@
     <mat-divider></mat-divider>
   </div>
 </div>
+<nav class="paginator" *ngIf="paginatorData">
+  <ul class="pagination">
+    <li class="page-item" [ngClass]="{'disabled': paginatorData.prev_page_url == null}">
+      <a class="page-link" [routerLink]="" (click)="prevPage()">Previous</a>
+    </li>
+    <li class="page-item" 
+    *ngFor="let item of [].constructor(paginatorData.last_page); let i = index"
+    [ngClass]="{'active': paginatorData.current_page == i + 1}">
+      <a class="page-link" [routerLink]="" (click)="byPageNumber(i+1)">{{ i + 1 }}</a>
+    </li>
+    <li class="page-item" [ngClass]="{'disabled': paginatorData.next_page_url == null}">
+      <a class="page-link" [routerLink]="" (click)="nextPage()">Next</a>
+    </li>
+  </ul>
+</nav>
