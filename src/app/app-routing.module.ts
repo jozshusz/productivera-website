@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { IdeasComponent } from './ideas/ideas.component';
 import { SideNavProjectsComponent } from './side-nav-projects/side-nav-projects.component';
-import { map } from 'rxjs/Operators';
+import { map } from 'rxjs/operators';
 import { LoginComponent } from './login/login.component';
 import { ProfileComponent } from './profile/profile.component';
 import { RequestResetComponent } from './request-reset/request-reset.component';
