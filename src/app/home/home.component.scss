@@ -72,6 +72,7 @@ h2{
 
 .under_border{
     border-bottom: 5px solid #f8799f;
+    display: inline-block;
 }
 
 .what_is_it{
@@ -104,4 +105,50 @@ h2{
 
 .space_word{
     margin-right: 5vw;
+}
+
+@media all and (max-width: 846px) {
+    .right_side{
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10%;
+        padding-top: 2%;
+    }
+
+    .left_side{
+        text-align: left;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10%;
+        padding-top: 5%;
+    }
+
+    .center_side{
+        margin-left: auto;
+        margin-right: auto;
+        padding: 10%;
+        padding-top: 0;
+    }
+
+    h1{
+        font-size: 14vw;
+    }
+
+    h2{
+        font-size: 12vw;
+    }
+
+    .information{
+        width: 100% !important;
+    }
+
+    .information .row{
+        margin: 0;
+    }
+
+    .center_button{
+        margin-top: 5% !important;
+        margin-bottom: 7% !important;
+    }
 }

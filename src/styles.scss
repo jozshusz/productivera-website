@@ -22,6 +22,11 @@ body {
     background-size: $dot-space $dot-space;
     color: rgb(255, 255, 255);
 }
+
 *{
     font-family: 'Montserrat', sans-serif;
+}
+
+html, body{
+    height: 100%;
 }

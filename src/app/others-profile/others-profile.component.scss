@@ -180,3 +180,81 @@ a{
     margin-top: 2%;
     margin-bottom: 4%;
 }
+
+.bigger_text{
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+@media all and (max-width: 988px) {
+
+    .avatar_pic{
+        width: 75px;
+    }
+
+    .content{
+        padding: 0;
+        padding-top: 5%;
+    }
+
+    .idea-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content{
+        margin-bottom: 5%;
+    }
+
+    .post-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_content{
+        margin-bottom: 10%;
+    }
+}
+
+@media all and (max-width: 520px) {
+
+    .idea-card {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content{
+        margin-bottom: 10%;
+    }
+
+    .post-card {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section_cont{
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .section{
+        margin-top: 15%;
+    }
+
+    .row, .section{
+        width: 95%;
+    }
+
+    .sub_title, .load_all{
+        margin-left: 5%;
+    }
+
+    .form-control{
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+}

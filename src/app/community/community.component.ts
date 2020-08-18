@@ -3,7 +3,7 @@ import { CommunityService } from '../services/community.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { TokenService } from '../services/token.service';
 import { SearchService } from '../services/search.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-community',
@@ -28,6 +28,10 @@ export class CommunityComponent implements OnInit {
   tooManyCharDescription = false;
   loading = false;
   searchLoading = false;
+  onlyUserPosts = null;
+  categoryPosts = null;
+
+  //searchFilter = "postFilter";
   
   checkbox = {
     'general': true,
@@ -54,7 +58,8 @@ export class CommunityComponent implements OnInit {
     private formBuilder: FormBuilder,
     private tokenService: TokenService,
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -73,7 +78,18 @@ export class CommunityComponent implements OnInit {
     };
     this.userId = this.tokenService.getUserId();
 
-    this.initPosts();
+    this.route.paramMap.subscribe( paramMap => {
+      if(paramMap.get("byUser") != null){
+        this.onlyUserPosts = paramMap.get("byUser");
+        this.initUsersPosts();
+      }else if(paramMap.get("byCategory") != null){
+        this.categoryPosts = paramMap.get("byCategory");
+        this.initPostsByCategory();
+      }else{
+        this.initPosts();
+      }
+    });
+
     this.isLoggedIn = this.tokenService.loggedIn();
     
     // check if user is logged in
@@ -95,6 +111,26 @@ export class CommunityComponent implements OnInit {
       });
   }
   
+  initUsersPosts(){
+    this.searchService.getUserPostsByUser(this.onlyUserPosts)
+      .subscribe((res: any) => {
+        this.paginatorData = res;
+        this.postList = res["data"];
+      }, error => {
+        console.error(error);
+      });
+  }
+  
+  initPostsByCategory(){
+    this.searchService.getUserPostsByCategory(this.categoryPosts)
+      .subscribe((res: any) => {
+        this.paginatorData = res;
+        this.postList = res["data"];
+      }, error => {
+        console.error(error);
+      });
+  }
+
   onSubmit(){
     if(this.newPostForm.value["postText"].length < 301){
       this.loading = true;
@@ -171,6 +207,8 @@ export class CommunityComponent implements OnInit {
         },
         error => console.log(error)
       );
+    }else{
+      this.initPosts();
     }
   }
 

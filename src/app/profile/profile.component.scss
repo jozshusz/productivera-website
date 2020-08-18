@@ -5,9 +5,9 @@
 .section_cont{
     padding: 4%;
     margin-top: 2%;
-    background-color: white;
-    box-shadow: 1px 1px 5px #888888;
-    border-radius: 15px;
+    background-color: rgba(255, 255, 255, 0.712);
+    box-shadow: 1px 1px 5px #4b4b4b;
+    /*border-radius: 15px;*/
 }
 
 .newNotificationClass{
@@ -15,7 +15,7 @@
 }
 
 .message_display{
-    background-color: #f0f1f1;
+    padding: 10%;
 }
 
 ::ng-deep .mat-list .mat-list-item .mat-line .long_text{
@@ -29,10 +29,263 @@
 }
 
 .messages, .notifications{
-    width: 40%;
+    width: 70%;
     margin-left: auto;
     margin-right: auto;
     margin-top: 2%;
     margin-bottom: 2%;
     color: black;
+}
+
+.row{
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.col{
+    padding: 5%;
+}
+
+.avatar_pic{
+    width: 100px;
+    border-radius: 50%;
+    margin-bottom: 5%;
+}
+
+.pic_name{
+    border: 1px solid rgb(194, 194, 194);
+}
+
+.basic_infos{
+    border: 1px solid rgb(194, 194, 194);
+    border-left: none;
+}
+
+.custom_btn{
+    color: white;
+    border-color: #BA1D4C;
+    background-color: #BA1D4C !important;
+}
+
+.custom_btn:hover{
+    background-color: #97193f !important;
+    border-color: #97193f;
+}
+
+.custom_btn:active{
+    color: white;
+    border-color: #BA1D4C !important;
+    background-color: #BA1D4C !important;
+}
+
+.custom_btn:focus{
+    box-shadow: none !important;
+}
+
+.bigger_text{
+    font-size: 1.2em;
+    text-decoration: underline;
+}
+
+.upload_avatar{
+    margin-bottom: 5%;
+}
+
+.upload_button{
+    margin: 2%;
+}
+
+.save_edit{
+    margin-right: 2%;
+}
+
+.break_words{
+    white-space: pre-line; 
+    word-wrap: break-word;
+}
+
+.mat-list-item a, .show_all_less, .blue_link{
+    color: rgb(0, 46, 116);
+}
+
+.section_title{
+    margin-bottom: 4%;
+    font-weight: bold;
+}
+
+.reply_textarea{
+    margin-top: 3%;
+}
+
+.content{
+    display: flex;
+    align-items: stretch;
+    flex-wrap: wrap;
+    align-content: flex-start;
+}
+
+.idea-card {
+    width: 20%;
+    color: black;
+}
+
+.idea-header-image {
+    background-size: cover;
+}
+
+.mat-card-image{
+    height: 180px; /* adjust as needed */
+    object-fit: contain;
+}
+
+.mat-card-title{
+    font-size: 16px;
+}
+
+.mat-card-subtitle{
+    font-size: 12px;
+}
+
+.rating{
+    color: rgb(0, 117, 59) !important;
+    display: inline-block;
+}
+
+.mat-card {
+    margin: 2%;
+    display: inline-block;
+    background-color: rgba(255, 255, 255, 0.671);
+    font-family: "Montserrat", Sans-serif;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 2px 3px 12px #222222;
+}
+
+.load_all{
+    margin-left: 2%;
+    color: rgb(0, 102, 255);
+}
+
+.mat-card-header {
+  flex-shrink: 0;
+}
+
+.mat-card-content{
+  flex-grow: 1;
+  overflow: auto;
+}
+
+.upvotedRating{
+    color: green;
+}
+
+.categories-section{
+    margin: 2%;
+    margin-right: 0;
+    margin-left: 0;
+    padding: 2%;
+    background-color: rgba(255, 255, 255, 0.445);
+}
+
+.category{
+    margin: 1%;
+}
+
+.categories{
+    color: rgb(99, 99, 99);
+    display: inline-block;
+    background-color: rgba(202, 202, 202, 0.596);
+    margin: 1%;
+    margin-left: 0;
+}
+
+.ideas_row{
+    width: 100%;
+}
+
+.mat-card-subtitle{
+    color: black;
+}
+
+.not_found_yet{
+    margin-left: 2%;
+}
+
+.section{
+    width: 70%;
+    margin-top: 4%;
+    margin-bottom: 4%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+@media all and (max-width: 988px) {
+
+    .avatar_pic{
+        width: 75px;
+    }
+
+    .content{
+        padding: 0;
+        padding-top: 5%;
+    }
+
+    .idea-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content{
+        margin-bottom: 5%;
+    }
+
+    .post-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .profile_content{
+        margin-bottom: 10%;
+    }
+}
+
+@media all and (max-width: 520px) {
+
+    .idea-card {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .content{
+        margin-bottom: 10%;
+    }
+
+    .post-card {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section_cont{
+        margin-top: 5%;
+        margin-bottom: 5%;
+    }
+
+    .section{
+        margin-top: 15%;
+    }
+
+    .messages, .notifications, .row, .section{
+        width: 95%;
+    }
+
+    .sub_title, .load_all{
+        margin-left: 5%;
+    }
 }

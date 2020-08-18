@@ -25,6 +25,10 @@ const routes: Routes = [
   { path: 'ideas/:ideaId', component: CommentsComponent },
   { path: 'community/:postId', component: PostCommentsComponent },
   { path: 'profile/:userId', component: OthersProfileComponent },
+  { path: 'ideas/byUser/:byUser', component: IdeasComponent },
+  { path: 'ideas/byCategory/:byCategory', component: IdeasComponent },
+  { path: 'community/byUser/:byUser', component: CommunityComponent },
+  { path: 'community/byCategory/:byCategory', component: CommunityComponent },
 
   {
     path: 'login',

@@ -20,4 +20,12 @@ export class ProfileService {
       headers: headers
     });
   }
+
+  editExpertise(data){
+    return this.http.post(this.baseUrl + "editExpertise", data);
+  }
+  
+  editDesc(data){
+    return this.http.post(this.baseUrl + "editDesc", data);
+  }
 }

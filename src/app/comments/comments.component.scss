@@ -90,3 +90,27 @@
 .page-link{
     color: black;
 }
+
+@media all and (max-width: 988px) {
+    .content{
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+}
+
+@media all and (max-width: 520px) {
+    .content{
+        width: 90%;
+        margin-bottom: 10%;
+        padding: 5%;
+    }
+
+    .new_comment{
+        margin-top: 10%;
+        margin-bottom: 10%;
+    }
+
+    .paginator{
+        margin-top: 10%;
+    }
+}

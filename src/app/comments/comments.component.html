@@ -12,7 +12,7 @@
     </p>
   </div>
   <div class="new_comment">
-    <button type="button" class="btn new_button" (click)="newCommentButton()">Write a new comment</button>
+    <button type="button" class="btn new_button" (click)="newCommentButton()">New comment</button>
     <form *ngIf="newComment" [formGroup]="newCommentForm" (ngSubmit)="onSubmit()" class="newCommentClass">
       <div class="form-group">
         <textarea type="text" placeholder="Your comment" 
@@ -79,8 +79,11 @@
     </div>
     <mat-divider></mat-divider>
   </div>
+  <div class="no_comments" *ngIf="commentList && commentList.length == 0">
+    There are no comments yet. Be the first!
+  </div>
 </div>
-<nav class="paginator" *ngIf="paginatorData">
+<nav class="paginator" *ngIf="paginatorData && commentList.length > 0">
   <ul class="pagination">
     <li class="page-item" [ngClass]="{'disabled': paginatorData.prev_page_url == null}">
       <a class="page-link" [routerLink]="" (click)="prevPage()">Previous</a>

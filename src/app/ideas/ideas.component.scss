@@ -177,3 +177,64 @@ a{
 .categories_checkbox{
     margin-top: 2%;
 }
+
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+}
+
+::ng-deep.mat-radio-button.mat-accent .mat-radio-outer-circle {
+   border-color:rgb(255, 255, 255)!important; /*outer ring color change*/
+}
+
+@media all and (max-width: 988px) {
+    .content{
+        padding: 0;
+        padding-top: 5%;
+    }
+    .idea-card {
+        width: 40%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+}
+
+@media all and (max-width: 520px) {
+    .idea-card {
+        width: 70%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .paginator{
+        padding-left: 0;
+    }
+    
+    .paginator_container{
+        width: 60%;
+        margin: 5% auto;
+    }
+
+    .newIdea{
+        padding-left: 0;
+        padding-top: 2%;
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .search_form{
+        margin-top: 7%;
+        margin-bottom: 7%;
+    }
+
+    .form-group{
+        margin: 2%;
+    }
+
+    .newIdeaPostClass{
+        width: 100%;
+    }
+
+    .newIdeaPostClass .form-group{
+        margin-left: 0;
+    }
+}

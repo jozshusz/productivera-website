@@ -18,4 +18,20 @@ export class SearchService {
     return this.http.get(this.baseUrl + "getUserPostSearchResults/" + data);
   }
 
+  getIdeasByUser(data) {
+    return this.http.get(this.baseUrl + "getIdeasByUser/" + data);
+  }
+
+  getUserPostsByUser(data) {
+    return this.http.get(this.baseUrl + "getUserPostsByUser/" + data);
+  }
+
+  getIdeasByCategory(data) {
+    return this.http.get(this.baseUrl + "getIdeasByCategory/" + data);
+  }
+  
+  getUserPostsByCategory(data) {
+    return this.http.get(this.baseUrl + "getUserPostsByCategory/" + data);
+  }
+  
 }

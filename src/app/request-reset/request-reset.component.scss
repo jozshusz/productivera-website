@@ -32,3 +32,11 @@
 .custom_btn:focus{
     box-shadow: none !important;
 }
+
+@media all and (max-width: 988px) {
+    .req_pw_container{
+        width: 80%;
+        margin-top: 10%;
+        margin-bottom: 20%;
+    }
+}

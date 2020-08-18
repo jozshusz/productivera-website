@@ -44,19 +44,19 @@
       </div>
       <div class="col basic_infos">
         <p>
-          From: {{ profileInfo.country }}
+          <span class="bigger_text">From:</span> {{ profileInfo.country }}
         </p>
         <p *ngIf="profileInfo.description">
-          Description: {{ profileInfo.description }}
+          <span class="bigger_text">Description:</span> {{ profileInfo.description }}
         </p>
         <p *ngIf="!profileInfo.description">
-          Description: -
+          <span class="bigger_text">Description:</span> -
         </p>
         <p>
-          Member since: {{ profileInfo.created_at | date: 'yyyy-MM-dd HH:mm' }}
+          <span class="bigger_text">Member since:</span> {{ profileInfo.created_at | date: 'yyyy-MM-dd HH:mm' }}
         </p>
         <p>
-          Email: {{ profileInfo.email }}
+          <span class="bigger_text">Email:</span> {{ profileInfo.email }}
         </p>
         <div class="messages_container">
           <button mat-button 
@@ -132,7 +132,9 @@
               {{ (idea.description.length > 40) ? (idea.description | slice:0:40) + '...' : (idea.description) }}
             </p>
             <p class="categories" *ngFor="let category of idea.categories">
-              {{ category.name }}&nbsp;
+              <a routerLink="/ideas/byCategory/{{category.name}}">
+                {{ category.name }}&nbsp;
+              </a>
             </p>
           </mat-card-content>
           <mat-card-actions>
@@ -146,7 +148,7 @@
           </mat-card-actions>
         </mat-card>
       </div>
-      <a *ngIf="profileInfo.ideas.length > 0" class="load_all" [routerLink]="['../../ideas', profileInfo.id]">
+      <a *ngIf="profileInfo.ideas.length > 0" class="load_all" [routerLink]="['../../ideas/byUser', profileInfo.id]">
         Load more ideas from this user
       </a>
     </div>
@@ -157,7 +159,7 @@
       <div class="content">
         <div *ngIf="profileInfo.userposts.length == 0" class="not_found_yet">
           <p>
-            <br>This doesn't have any community posts.
+            <br>This user doesn't have any community posts.
           </p>
         </div>
         <mat-spinner *ngIf="!profileInfo.userposts"></mat-spinner>
@@ -177,7 +179,9 @@
               {{ (post.text.length > 200) ? (post.text | slice:0:200) + '...' : (post.text) }}
             </p>
             <p class="categories" *ngFor="let category of post.categories">
-              {{ category.name }}&nbsp;
+              <a routerLink="/community/byCategory/{{category.name}}">
+                {{ category.name }}&nbsp;
+              </a>
             </p>
           </mat-card-content>
           <mat-card-actions>
@@ -185,6 +189,9 @@
           </mat-card-actions>
         </mat-card>
       </div>
+      <a *ngIf="profileInfo.userposts.length > 0" class="load_all" [routerLink]="['../../community/byUser', profileInfo.id]">
+        Load more community posts from this user
+      </a>
     </div>
   </div>
 </div>

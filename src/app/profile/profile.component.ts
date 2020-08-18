@@ -26,9 +26,21 @@ export class ProfileComponent implements OnInit {
   responseMessage = null;
   
   selectedFile: File = null;
+  loadingAvatarUpload = false;
 
   @ViewChild('selectFileInput')
   selectFileInput: ElementRef;
+
+  expertiseEdit = false;
+  newExpertiseText = null;
+  tooManyEditExpertise = false;
+  
+  descEdit = false;
+  newDescText = null;
+  tooManyEditDesc = false;
+
+  replyLoading = false;
+  replySuccess = false;
 
   constructor(
     private statusService: StatusService,
@@ -111,6 +123,8 @@ export class ProfileComponent implements OnInit {
   }
 
   sendTheReply(receiverId, header){
+    this.replySuccess = false;
+    this.replyLoading = true;
     this.submitted = true;
     this.replyMessageForm.controls['token'].setValue(this.token['token']);
     this.replyMessageForm.controls['receiver'].setValue(receiverId);
@@ -118,9 +132,13 @@ export class ProfileComponent implements OnInit {
     this.replyMessageForm.controls['messageHeader'].setValue(newHeader);
     this.msgService.sendMessage(this.replyMessageForm.value)
     .subscribe((res: any) => {
-      console.log(res);
+      this.replyLoading = false;
+      this.replySuccess = true;
+      this.replyToMessage();
+      this.profileInfo.sent.unshift(res['msg']);
     }, error => {
-      console.error(error);
+      this.replyLoading = false;
+      this.replySuccess = false;
     });
   }
 
@@ -132,6 +150,7 @@ export class ProfileComponent implements OnInit {
   }
 
   onUpload(){
+    this.loadingAvatarUpload = true;
     this.responseMessage = null;
     this.errorMessage = null;
 
@@ -150,13 +169,83 @@ export class ProfileComponent implements OnInit {
   }
 
   handleAvatarResponse(data){
+    this.loadingAvatarUpload = false;
     this.selectFileInput.nativeElement.value = "";
     this.responseMessage = data.message;
     this.profileInfo.avatar = data.newAvatar;
+    this.selectedFile = null;
   }
 
   handleAvatarError(error){
+    this.loadingAvatarUpload = false;
     this.errorMessage = error.error.error;
+    this.selectedFile = null;
+  }
+
+  editExpertise(event: MouseEvent){
+    event.preventDefault();
+    this.expertiseEdit = true;
+    this.newExpertiseText = this.profileInfo.expertise;
+  }
+
+  saveEditExpertise(){
+    if(this.newExpertiseText.length < 26){
+      this.tooManyEditExpertise = false;
+      
+      this.profileService.editExpertise({
+        'token': this.token['token'],
+        'expertise': this.newExpertiseText
+      }).subscribe(
+        data => 
+        {
+          this.profileInfo.expertise = data['expertise'];
+          this.expertiseEdit = false;
+        },
+        error => 
+        {
+          console.log(error);
+        }
+      );
+    }else{
+      this.tooManyEditExpertise = true;
+    }
+  }
+
+  cancelEditExpertise(){
+    this.expertiseEdit = false;
+  }
+
+  editDescription(event: MouseEvent){
+    event.preventDefault();
+    this.descEdit = true;
+    this.newDescText = this.profileInfo.description;
+  }
+
+  saveEditDesc(){
+    if(this.newDescText.length < 231){
+      this.tooManyEditDesc = false;
+      
+      this.profileService.editDesc({
+        'token': this.token['token'],
+        'description': this.newDescText
+      }).subscribe(
+        data => 
+        {
+          this.profileInfo.description = data['description'];
+          this.descEdit = false;
+        },
+        error => 
+        {
+          console.log(error);
+        }
+      );
+    }else{
+      this.tooManyEditDesc = true;
+    }
+  }
+
+  cancelEditDesc(){
+    this.descEdit = false;
   }
 
 }

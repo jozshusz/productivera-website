@@ -5,7 +5,7 @@ import { ViewChild } from '@angular/core';
 import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../services/token.service';
 import { SearchService } from '../services/search.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-ideas',
@@ -40,6 +40,10 @@ export class IdeasComponent implements OnInit {
   tooManyCharDescription = false;
   loading = false;
   searchLoading = false;
+  onlyUserIdeas = null;
+  categoryIdeas = null;
+
+  //searchFilter = "ideaFilter";
 
   checkbox = {
     'general': true,
@@ -66,7 +70,8 @@ export class IdeasComponent implements OnInit {
     private ideaService: IdeaService,
     private tokenService: TokenService,
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
     ) { }
 
   ngOnInit() {
@@ -85,7 +90,19 @@ export class IdeasComponent implements OnInit {
       'token': this.tokenService.get()
     };
     this.userId = this.tokenService.getUserId();
-    this.initIdeas();
+
+    this.route.paramMap.subscribe( paramMap => {
+      if(paramMap.get("byUser") != null){
+        this.onlyUserIdeas = paramMap.get("byUser");
+        this.initUsersIdeas();
+      }else if(paramMap.get("byCategory") != null){
+        this.categoryIdeas = paramMap.get("byCategory");
+        this.initIdeasByCategory();
+      }else{
+        this.initIdeas();
+      }
+    });
+
     this.isLoggedIn = this.tokenService.loggedIn();
 
     // check if user is logged in
@@ -99,6 +116,28 @@ export class IdeasComponent implements OnInit {
 
   initIdeas(){
     this.ideaService.getIdeas()
+      .subscribe((res: any) => {
+        this.paginatorData = res;
+        this.ideaList = res["data"];
+        this.checkUpvotedStatus();
+      }, error => {
+        console.error(error);
+      });
+  }
+
+  initUsersIdeas(){
+    this.searchService.getIdeasByUser(this.onlyUserIdeas)
+      .subscribe((res: any) => {
+        this.paginatorData = res;
+        this.ideaList = res["data"];
+        this.checkUpvotedStatus();
+      }, error => {
+        console.error(error);
+      });
+  }
+  
+  initIdeasByCategory(){
+    this.searchService.getIdeasByCategory(this.categoryIdeas)
       .subscribe((res: any) => {
         this.paginatorData = res;
         this.ideaList = res["data"];
@@ -257,6 +296,8 @@ export class IdeasComponent implements OnInit {
         },
         error => console.log(error)
       );
+    }else{
+      this.initIdeas();
     }
   }
 

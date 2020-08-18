@@ -30,6 +30,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatRadioModule } from '@angular/material/radio';
 
 @NgModule({
    declarations: [
@@ -64,7 +65,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
       MatProgressSpinnerModule,
       MatDividerModule,
       MatSelectModule,
-      BrowserAnimationsModule
+      BrowserAnimationsModule,
+      MatRadioModule
    ],
    providers: [],
    bootstrap: [
