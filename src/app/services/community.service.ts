@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class CommunityService {
 
-  private baseUrl = "http://www.prodbackend.com/api/";
+  private baseUrl = "https://api.productivera.com/api/";
 
   constructor(private http: HttpClient) { }
 
