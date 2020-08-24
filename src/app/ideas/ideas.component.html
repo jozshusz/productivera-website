@@ -70,6 +70,7 @@
         <span class="text-success" *ngIf="picResponseMessage">{{ picResponseMessage }}</span>
       </div>
     </div>
+    <span class="text-danger" *ngIf="picError">Something went wrong - (picture must be jpg/png and less than 1MB)</span>
     <div class="form-group">
       <button class="btn create_post custom_btn new_button" (click)="createNewPostButton()">
         <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

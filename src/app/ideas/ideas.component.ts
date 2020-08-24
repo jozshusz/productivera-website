@@ -42,6 +42,7 @@ export class IdeasComponent implements OnInit {
   searchLoading = false;
   onlyUserIdeas = null;
   categoryIdeas = null;
+  picError = false;
 
   //searchFilter = "ideaFilter";
 
@@ -188,6 +189,8 @@ export class IdeasComponent implements OnInit {
               this.handleIdeaCreatedResponse(res);
             }, error => {
               console.error(error);
+              this.loading = false;
+              this.picError = true;
             });
         }else{
           this.newIdeaForm.controls['token'].setValue(this.token['token']);
@@ -197,6 +200,8 @@ export class IdeasComponent implements OnInit {
               this.handleIdeaCreatedResponse(res);
             }, error => {
               console.error(error);
+              this.loading = false;
+              this.picError = true;
             });
         }
       }else{
@@ -208,6 +213,7 @@ export class IdeasComponent implements OnInit {
   }
 
   handleIdeaCreatedResponse(idea){
+    this.picError = false;
     this.loading = false;
     if(this.ideaList.length > 11){
       this.byPageNumber(this.paginatorData["first_page_url"]);
