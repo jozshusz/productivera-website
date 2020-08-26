@@ -50,6 +50,10 @@
                 <div *ngIf="f.password_confirmation.errors.required">You have to give a password</div>
             </div>
         </div>
+        <label>I accept the <a routerLink="/terms-cond">Terms and Conditions</a> and the <a routerLink="/privacy-policy">Privacy Policy</a></label>
+        <mat-checkbox [(ngModel)]="privAndTermsAccept" [ngModelOptions]="{standalone: true}">Accept</mat-checkbox>
+        <br>
+        <span class="text-danger" *ngIf="haveToAccept">You have to accept the Terms and Conditions and the Privacy Policy</span>
         <div class="form-group signup_form_group">
             <button [disabled]="loading" class="btn btn-block custom_btn">
                 <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1"></span>

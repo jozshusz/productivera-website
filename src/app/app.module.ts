@@ -31,9 +31,11 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatRadioModule } from '@angular/material/radio';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
-   declarations: [
+   declarations: [		
       AppComponent,
       HomeComponent,
       NavigationComponent,
@@ -48,7 +50,9 @@ import { MatRadioModule } from '@angular/material/radio';
       CommentsComponent,
       OthersProfileComponent,
       CommunityComponent,
-      PostCommentsComponent
+      PostCommentsComponent,
+      PrivacyPolicyComponent,
+      TermsAndConditionsComponent
    ],
    imports: [
       BrowserModule,

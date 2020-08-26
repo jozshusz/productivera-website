@@ -21,6 +21,8 @@ export class SignupComponent implements OnInit {
   tooManyCharUsername = false;
   countryList = countries;
   countryWrong = false;
+  privAndTermsAccept = false;
+  haveToAccept = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -36,31 +38,38 @@ export class SignupComponent implements OnInit {
       email: ['', Validators.required],
       country: null,
       password: ['', Validators.required],
-      password_confirmation: ['', Validators.required]
+      password_confirmation: ['', Validators.required],
+      termsPolicyAccepted: null
     });
   }
 
   onSubmit(){
-    this.submitted = true;
-
-    if(this.signupForm.value["email"].length < 31){
-      this.tooManyCharEmail = false;
-      if(this.signupForm.value["username"].length < 31){
-        this.tooManyCharUsername = false;
-        if(this.signupForm.value["country"] != null){
-          this.loading = true;
-          this.authService.signUp(this.signupForm.value).subscribe(
-            data => this.handleResponse(data),
-            error => this.handleError(error)
-          );
+    if(!this.privAndTermsAccept){
+      this.haveToAccept = true;
+    }else{
+      this.haveToAccept = false;
+      this.submitted = true;
+  
+      if(this.signupForm.value["email"].length < 31){
+        this.tooManyCharEmail = false;
+        if(this.signupForm.value["username"].length < 31){
+          this.tooManyCharUsername = false;
+          if(this.signupForm.value["country"] != null){
+            this.loading = true;
+            this.signupForm.controls["termsPolicyAccepted"].setValue(this.privAndTermsAccept);
+            this.authService.signUp(this.signupForm.value).subscribe(
+              data => this.handleResponse(data),
+              error => this.handleError(error)
+            );
+          }else{
+            this.countryWrong = true;
+          }
         }else{
-          this.countryWrong = true;
+          this.tooManyCharUsername = true;
         }
       }else{
-        this.tooManyCharUsername = true;
+        this.tooManyCharEmail = true;
       }
-    }else{
-      this.tooManyCharEmail = true;
     }
   }
 

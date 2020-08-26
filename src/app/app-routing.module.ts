@@ -15,6 +15,8 @@ import { CommentsComponent } from './comments/comments.component';
 import { OthersProfileComponent } from './others-profile/others-profile.component';
 import { CommunityComponent } from './community/community.component';
 import { PostCommentsComponent } from './post-comments/post-comments.component';
+import { PrivacyPolicyComponent } from './privacy-policy/privacy-policy.component';
+import { TermsAndConditionsComponent } from './terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full'},
@@ -29,6 +31,8 @@ const routes: Routes = [
   { path: 'ideas/byCategory/:byCategory', component: IdeasComponent },
   { path: 'community/byUser/:byUser', component: CommunityComponent },
   { path: 'community/byCategory/:byCategory', component: CommunityComponent },
+  { path: 'privacy-policy', component: PrivacyPolicyComponent },
+  { path: 'terms-cond', component: TermsAndConditionsComponent },
 
   {
     path: 'login',
