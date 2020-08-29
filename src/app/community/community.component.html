@@ -114,6 +114,9 @@
     <mat-card-actions>
       <a mat-button routerLink="/community/{{post.id}}">COMMENT ({{post.comments_count}})</a>
     </mat-card-actions>
+    <p class="little_text">
+      {{ post.created_at | date: 'yyyy-MM-dd HH:mm' }}
+    </p>
   </mat-card>
 </div>
 <div class="paginator_container">
