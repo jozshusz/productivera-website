@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, NavigationStart } from '@angular/router';
+import { Router, NavigationStart, NavigationEnd } from '@angular/router';
 import { MsgNotiService } from './services/msg-noti.service';
 import { TokenService } from './services/token.service';
 import { BehaviorSubject } from 'rxjs';
 import { StatusService } from './services/status.service';
+
+declare let gtag: Function;
 
 @Component({
   selector: 'app-root',
@@ -27,6 +29,13 @@ export class AppComponent implements OnInit {
        if (event instanceof NavigationStart){
           this.checkForNotification();
        }
+       if(event instanceof NavigationEnd){
+        gtag('config', 'UA-176732346-1', 
+                 {
+                   'page_path': event.urlAfterRedirects
+                 }
+                );
+        }
     });
 
     // check if the user's token is expired or not, if yes then logging out
