@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class AuthService {
 
-  private baseUrl = 'https://api.productivera.com/api/';
+  private baseUrl = 'http://www.prodbackend.com/api/';
 
   constructor(
     private router: Router,
