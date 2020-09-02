@@ -6,7 +6,7 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SearchService {
 
-  private baseUrl = "http://www.prodbackend.com/api/";
+  private baseUrl = "https://api.productivera.com/api/";
 
   constructor(private http: HttpClient) { }
 

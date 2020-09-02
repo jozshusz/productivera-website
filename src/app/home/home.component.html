@@ -8,7 +8,7 @@
     <mat-card class="idea-card break_words col" id="{{ currentIdea.id }}">
       <mat-card-header>
           <img mat-card-avatar class="idea-header-image"
-          src="http://www.prodbackend.com/img/{{currentIdea.user.avatar}}">
+          src="https://api.productivera.com/img/{{currentIdea.user.avatar}}">
           <mat-card-title>
             <a routerLink="/profile/{{currentIdea.user.id}}">
               {{ currentIdea.user.username }}
@@ -16,7 +16,7 @@
           </mat-card-title>
           <mat-card-subtitle>{{ currentIdea.user.status }}</mat-card-subtitle>
       </mat-card-header>
-      <img mat-card-image src="http://www.prodbackend.com/img/{{currentIdea.picture}}" alt="Photo of an idea">
+      <img mat-card-image src="https://api.productivera.com/img/{{currentIdea.picture}}" alt="Photo of an idea">
       <mat-card-content>
         <h5>
           <a routerLink="/ideas/{{currentIdea.id}}">

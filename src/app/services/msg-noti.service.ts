@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class MsgNotiService {
 
-  private baseUrl = "http://www.prodbackend.com/api/";
+  private baseUrl = "https://api.productivera.com/api/";
 
   newMsgNoti = new BehaviorSubject<boolean>(false);
 
