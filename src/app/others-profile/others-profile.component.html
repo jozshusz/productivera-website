@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col justify-content-center text-center pic_name">
         <img class="avatar_pic"
-        src="https://api.productivera.com/img/{{profileInfo.avatar}}">
+        src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
         <h5>
           {{ profileInfo.username }}
         </h5>
@@ -113,7 +113,7 @@
         <mat-card class="idea-card break_words" *ngFor="let idea of profileInfo.ideas" id="{{ idea.id }}">
           <mat-card-header>
               <img mat-card-avatar class="idea-header-image"
-              src="https://api.productivera.com/img/{{profileInfo.avatar}}">
+              src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
               <mat-card-title>
                 <a [routerLink]="['../../profile', profileInfo.id]">
                   {{ profileInfo.username }}
@@ -121,7 +121,7 @@
               </mat-card-title>
               <mat-card-subtitle>{{ profileInfo.status }}</mat-card-subtitle>
           </mat-card-header>
-          <img mat-card-image src="https://api.productivera.com/img/{{idea.picture}}" alt="Photo of an idea">
+          <img mat-card-image src="http://www.prodbackend.com/img/{{idea.picture}}" alt="Photo of an idea">
           <mat-card-content>
             <h5>
               <a [routerLink]="['../../ideas/', idea.id]">
@@ -166,7 +166,7 @@
         <mat-card class="post-card break_words" *ngFor="let post of profileInfo.userposts" id="{{ post.id }}">
           <mat-card-header>
               <img mat-card-avatar class="post-header-image"
-              src="https://api.productivera.com/img/{{profileInfo.avatar}}">
+              src="http://www.prodbackend.com/img/{{profileInfo.avatar}}">
               <mat-card-title>
                 <a [routerLink]="['../../profile', profileInfo.id]">
                   {{ profileInfo.username }}

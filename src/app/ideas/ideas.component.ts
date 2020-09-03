@@ -6,6 +6,7 @@ import { HttpHeaders } from '@angular/common/http';
 import { TokenService } from '../services/token.service';
 import { SearchService } from '../services/search.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { CommentService } from '../services/comment.service';
 
 @Component({
   selector: 'app-ideas',
@@ -43,6 +44,7 @@ export class IdeasComponent implements OnInit {
   onlyUserIdeas = null;
   categoryIdeas = null;
   picError = false;
+  freshComments = null;
 
   //searchFilter = "ideaFilter";
 
@@ -72,7 +74,8 @@ export class IdeasComponent implements OnInit {
     private tokenService: TokenService,
     private searchService: SearchService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private commentService: CommentService
     ) { }
 
   ngOnInit() {
@@ -102,6 +105,12 @@ export class IdeasComponent implements OnInit {
       }else{
         this.initIdeas();
       }
+    });
+
+    this.commentService.getFreshComments().subscribe((res: any) => {
+      this.freshComments = res;
+    }, error => {
+      console.error(error);
     });
 
     this.isLoggedIn = this.tokenService.loggedIn();

@@ -7,7 +7,7 @@ import { HttpClient } from '@angular/common/http';
 export class CommentService {
 
   commentList: any;
-  private baseUrl = "https://api.productivera.com/api/";
+  private baseUrl = "http://www.prodbackend.com/api/";
 
   constructor(private http: HttpClient) { }
 
@@ -25,5 +25,9 @@ export class CommentService {
 
   getCommentsByUrl(url){
     return this.http.get(url);
+  }
+
+  getFreshComments() {
+    return this.http.get(this.baseUrl + "freshComments");
   }
 }
